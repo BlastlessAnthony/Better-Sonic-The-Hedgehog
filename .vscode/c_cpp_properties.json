@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}${pathSeparator}Raylib${pathSeparator}include",
+                "${workspaceFolder}${pathSeparator}Source${pathSeparator}**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/local/opt/llvm@14/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "macos-clang-x64",
+            "configurationProvider": "ms-vscode.makefile-tools"
+        }
+    ],
+    "version": 4
+}
