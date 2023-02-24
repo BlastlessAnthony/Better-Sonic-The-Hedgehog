@@ -39,9 +39,10 @@ endif
 project_name = Better-Sonic-The-Hedgehog
 
 assets_directory = "./Assets"
-assets_directory_win = ".\\Assets"
+assets_directory_win = $(subst /,\\,$(assets_directory))
 build_directory = ./build
 binary_directory = ./binary
+binary_directory_win = $(subst /,\\,$(binary_directory))
 
 include_directories = \
 	-I "./Raylib/include" \
@@ -136,47 +137,71 @@ dependencies = $(object_files:.o=.d)
 ################################################################################
 #### Targets
 ################################################################################
-
-#
-
-.PHONY: all
 build: $(binary_directory)/$(os)/$(build_architechure)/$(build_toolchain)/$(build_type)/$(executable_file)
+clean: $(os)_clean
+run: $(os)_$(build_architechure)_$(build_toolchain)_$(build_type)_run
 ################################################################################
 #MacOS
 
-#Packaging the executable.
+#Linking the mach-o object files into an executable binary within an app bundle.
 $(binary_directory)/macos/universal/llvm/release/$(executable_file): $(object_files)
-	@echo "Linking object files"
+	@echo "Linking object files for mach-o universal binary and turning it into an app bundle."
+
+	#Linking the binary
 	@[ ! -d "$(@D)" ] && mkdir -p "$(@D)" || echo "$(@D) already exists."
 	@export MACOSX_DEPLOYMENT_TARGET=10.9
 	@$(macos_c_compiler) $^ -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL -L"./Raylib" -lraylib_macos_universal -o  $@
+
+	#Making the app bundle.
 	@[ ! -d "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app" ] && mkdir -p "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app"
+
+	#Move the binary.
 	@[ ! -d "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/MacOS" ] && mkdir -p "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/MacOS"
 	@mv "$(@D)/$(executable_file)" "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/MacOS"
+
+	#Copy the resources,
 	@[ ! -d "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources" ] && mkdir -p "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources"
 	@cp -r "$(assets_directory)/." "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources"
-	@[ -d "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources/Github" ] && rm -rf "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources/Github" || echo "'$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources/Github' doesn't exist."
-	@[ -d "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources/Game/Source" ] && rm -rf "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources/Game/Source" || echo "'$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources/Game/Source' doesn't exist."
+
+	#- this also includes the property list.
 	@touch "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Info.plist"
 	@cat "./macos_plist.txt" > "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Info.plist"
 
-#Just standard.
+	#Clean up.
+	@[ -d "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources/Github" ] && rm -rf "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources/Github" || echo "'$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources/Github' doesn't exist."
+	@[ -d "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources/Game/Source" ] && rm -rf "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources/Game/Source" || echo "'$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources/Game/Source' doesn't exist."
+	
+
+#Linking the mach-o object files into an executable binary.
 $(binary_directory)/macos/universal/llvm/debug/$(executable_file): $(object_files)
-	@echo "Linking object files"
+	@echo "Linking object files for mach-o universal binary."
 	@[ ! -d "$(@D)" ] && mkdir -p "$(@D)" || echo "$(@D) already exists."
 	@export MACOSX_DEPLOYMENT_TARGET=10.9
 	@$(macos_c_compiler) $^ -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL -L"./Raylib" -lraylib_macos_universal -o $@
-################################################################################
 
+#Compiling mach-o object files.
 $(build_directory)/macos/universal/$(build_toolchain)/$(build_type)/%.o: $(source_directory)/%.c
-	@echo "Compiling: $< with $(build_toolchain) toolchain on $(build_architechure) for $(os)"
+	@echo "Compiling: $< with $(build_toolchain) toolchain on univeral architechure for macos"
 	@[ ! -d "$(@D)" ] && mkdir -p "$(@D)" || echo "$(@D) already exists."
 	$(macos_c_compiler) $(c_pre_processor_flags) $(include_directories) $(c_flags) -c $< -o $@
+################################################################################
+#Windows
+
+$(binary_directory)/$()
+
+#Compiling windows object files.
+$(build_directory)/windows/win64/msvc/$(build_type)/%.o: $(source_directory)/%.c
+	@echo Compiling $< with @echo "Compiling: $< with msvc toolchain on win64 architechure for windows in $(build_type) mode."
+	@IF exists "$(@D)" (echo '$(@D) already exists.') ELSE {mkdir "$(@D)"}
+	@$(windows_c_compiler_msvc) $(c_pre_processor_flags)  $(c_flags) -c $< -o $@
+
+################################################################################
+
+
 
 -include $(dependencies)
 
-.PHONY: run
-run: $(os)_$(build_architechure)_$(build_toolchain)_$(build_type)_run
+
 
 macos_universal_llvm_release_run: $(binary_directory)/macos/universal/llvm/release/$(executable_file)
 	$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app
@@ -184,9 +209,9 @@ macos_universal_llvm_release_run: $(binary_directory)/macos/universal/llvm/relea
 macos_universal_llvm_debug_run:
 	$(binary_directory)/macos/universal/$(build_toolchain)/debug/$(project_name)
 
-.PHONY: clean
-clean: $(os)_clean
-
 macos_clean:
 	@[ -d "$(build_directory)" ] && rm -rf "$(build_directory)" || echo "$(build_directory) doesn't exist."
 	@[ -d "$(binary_directory)" ] && rm -rf "$(binary_directory)" || echo "$(binary_directory) doesn't exist."
+
+windows_clean:
+	@echo Cool!

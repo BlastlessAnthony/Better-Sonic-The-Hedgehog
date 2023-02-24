@@ -6,12 +6,22 @@
                 "${workspaceFolder}${pathSeparator}Raylib${pathSeparator}include",
                 "${workspaceFolder}${pathSeparator}Source${pathSeparator}**"
             ],
-            "defines": [],
             "compilerPath": "/usr/local/opt/llvm@14/bin/clang",
             "cStandard": "c17",
             "cppStandard": "c++14",
             "intelliSenseMode": "macos-clang-x64",
             "configurationProvider": "ms-vscode.makefile-tools"
+        },
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}${pathSeparator}Raylib${pathSeparator}include",
+                "${workspaceFolder}${pathSeparator}Source"
+            ],
+            "compilerPath": "clang++",
+            "intelliSenseMode": "${default}",
+            "cStandard": "c17",
+            "cppStandard": "c++17"
         }
     ],
     "version": 4
