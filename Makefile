@@ -165,7 +165,7 @@ $(binary_directory)/macos/universal/llvm/release/$(executable_file): $(object_fi
 
 	#- this also includes the property list.
 	@touch "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Info.plist"
-	@cat "./macos_plist.txt" > "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Info.plist"
+	@cat "./Info.plist" > "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Info.plist"
 
 	#Clean up.
 	@[ -d "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources/Github" ] && rm -rf "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources/Github" || echo "'$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources/Github' doesn't exist."
@@ -186,8 +186,6 @@ $(build_directory)/macos/universal/$(build_toolchain)/$(build_type)/%.o: $(sourc
 	$(macos_c_compiler) $(c_pre_processor_flags) $(include_directories) $(c_flags) -c $< -o $@
 ################################################################################
 #Windows
-
-$(binary_directory)/$()
 
 #Compiling windows object files.
 $(build_directory)/windows/win64/msvc/$(build_type)/%.o: $(source_directory)/%.c
