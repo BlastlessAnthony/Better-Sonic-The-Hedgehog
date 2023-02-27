@@ -7,11 +7,11 @@ Vector2 AddVectors(Vector2 v1, Vector2 v2) {
 const char* GetResourcePath()
 {
     #ifdef _WIN32 || _WIN64
-    return TextFormat("%sresources", GetApplicationDirectory());
+    return TextFormat("%sresources/game/", GetApplicationDirectory());
     #elif __APPLE__ || __MACH__
-    return TextFormat("%s../Resources", GetApplicationDirectory());
+    return TextFormat("%s../Resources/game/", GetApplicationDirectory());
     #elif __linux__
-    return TextFormat("%s../res", GetApplicationDirectory());
+    return TextFormat("%s../res/game/", GetApplicationDirectory());
     #elif __unix || __unix__
     return "Unix";
     #endif

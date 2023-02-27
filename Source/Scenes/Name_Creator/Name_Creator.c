@@ -1,4 +1,4 @@
-#include "Name_Creator.h"
+#include "name_creator.h"
 
 
 const char letter_table[LETTER_TABLE_SETS][LETTERS_PER_SET] = {
@@ -21,11 +21,16 @@ unsigned int n_of_letters_in_name = 0;
 
 char name[AMOUNT_OF_LETTERS_PER_NAME];
 
+bool init = false;
 void name_creator()
 {
 	
-	header_font = GetFontDefault();
-	display_font = GetFontDefault();
+	if (!init) {
+		header_font = GetFontDefault();
+		display_font = LoadFont(TextFormat("%sfonts/PixelOperator/PixelOperator-Bold.ttf", GetResourcePath()));
+		init = true;
+	}
+		
 
 	bool input_left = IsKeyPressed(KEY_LEFT);
 	bool input_right = IsKeyPressed(KEY_RIGHT);
@@ -44,7 +49,7 @@ void name_creator()
 			DrawTextCodepoint(display_font, letter_table[set][chr], 
 				(Vector2) { ((VIEW_WIDTH - (MeasureTextEx(header_font, "a", LETTER_SIZE, 0).x * LETTER_SPACING)) / 2) + (LETTER_SPACING * chr), 64 + (LINE_SPACING * set) }, LETTER_SIZE, WHITE);
 			if (current_line == set && current_letter == chr) {
-				DrawCircleLines(((VIEW_WIDTH - (MeasureTextEx(header_font, "a", LETTER_SIZE, 0).x * LETTER_SPACING)) /2) + (LETTER_SPACING * current_letter) + (MeasureTextEx(display_font, "a", LETTER_SIZE, 0).x/2), 64 + (LINE_SPACING * current_line) + (MeasureTextEx(display_font, "a", LETTER_SIZE, 0).y)/2, LETTER_SIZE, BLUE);
+				DrawCircleLines(((VIEW_WIDTH - (MeasureTextEx(header_font, "a", LETTER_SIZE, 0).x * LETTER_SPACING)) /2) + (LETTER_SPACING * current_letter) + (MeasureTextEx(display_font, "a", LETTER_SIZE, 0).x/2), 64 + (LINE_SPACING * current_line) + (MeasureTextEx(display_font, "a", LETTER_SIZE, 0).y)/2, LETTER_SIZE/2, BLUE);
 			}
 			
 		}

@@ -178,6 +178,9 @@ $(binary_directory)/macos/universal/llvm/debug/$(executable_file): $(object_file
 	@[ ! -d "$(@D)" ] && mkdir -p "$(@D)" || echo "$(@D) already exists."
 	@export MACOSX_DEPLOYMENT_TARGET=10.9
 	@$(macos_c_compiler) $^ -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL -L"./Raylib" -lraylib_macos_universal -o $@
+	@[ ! -d "$(binary_directory)/macos/universal/llvm/debug/resources" ] && mkdir -p "$(binary_directory)/macos/universal/llvm/debug/resources"
+
+
 
 #Compiling mach-o object files.
 $(build_directory)/macos/universal/$(build_toolchain)/$(build_type)/%.o: $(source_directory)/%.c

@@ -48,6 +48,7 @@ int main()
         EndTextureMode();
 
         BeginDrawing();
+            ClearBackground(BLACK);
             DrawTexturePro(
                 render_texture.texture, 
                 (Rectangle) { 0.0f, 0.0f, (float)render_texture.texture.width, (float)-render_texture.texture.height },
@@ -56,7 +57,6 @@ int main()
                 (Vector2) { 0, 0 }, 0.0f, WHITE);
         EndDrawing();
     } 
-    printf("%s\n", GetResourcePath());
     UnloadRenderTexture(render_texture);
     CloseWindow();
     exit (EXIT_SUCCESS);
