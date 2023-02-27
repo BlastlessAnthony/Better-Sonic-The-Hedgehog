@@ -1,10 +1,7 @@
 #ifndef __BSTH_DATA_H__
 #define __BSTH_DATA_H__
 
-/// @brief The width of the viewport.
-extern const int VIEW_WIDTH;
-/// @brief The height of the viewport. 
-extern const int VIEW_HEIGHT;
-/// @brief What speed the game should run at.
-extern const int FRAMERATE;
+#define VIEW_WIDTH 320
+#define VIEW_HEIGHT 256
+#define FRAMERATE 60
 #endif //__BSTH_DATA_H__

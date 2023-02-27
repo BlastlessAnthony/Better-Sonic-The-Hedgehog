@@ -7,7 +7,7 @@ Vector2 FontGetGlyphSize(Font font)
 
 unsigned int FontGetStringWidth(Font font, char* string)
 {
-	return FontGetGlyphSize(font).x * strlen(string);
+	return (FontGetGlyphSize(font).x * strlen(string));
 }
 
 Vector2 AddVectors(Vector2 v1, Vector2 v2) {

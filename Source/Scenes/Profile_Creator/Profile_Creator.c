@@ -3,8 +3,6 @@
 
 void profile_creator()
 {
-	BeginDrawing();
-	ClearBackground(BLACK);
+	DrawRectangle(0, 0, VIEW_WIDTH, VIEW_HEIGHT, PINK);
 	name_creator();
-	EndDrawing();
 }
