@@ -53,7 +53,7 @@
     <ClInclude Include="Source\Scenes\Name_Creator\Name_Creator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Utility.h">
+    <ClInclude Include="Source\utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

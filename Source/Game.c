@@ -1,8 +1,9 @@
 #include <raylib.h>
 #include <raymath.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include "Config.h"
-#include "Scenes.h"
+#include "game_config.h"
+#include "scenes.h"
 
 
 #define MAX(a, b) ((a)>(b)? (a) : (b))
@@ -21,9 +22,6 @@ int main()
     
     InitAudioDevice();
     SetTargetFPS(FRAMERATE);
-
-    
-
     int current_scene = 0;
     
     while (!WindowShouldClose())
@@ -57,8 +55,8 @@ int main()
                 (float)VIEW_WIDTH* scale, (float)VIEW_HEIGHT* scale}, 
                 (Vector2) { 0, 0 }, 0.0f, WHITE);
         EndDrawing();
-    }
-
+    } 
+    printf("%s\n", GetResourcePath());
     UnloadRenderTexture(render_texture);
     CloseWindow();
     exit (EXIT_SUCCESS);

@@ -1,16 +1,9 @@
-#ifndef __BSTH_GAME_CONFIG_H__
-#define __BSTH_GAME_CONFIG_H__
+#ifndef __BSTH_DATA_H__
+#define __BSTH_DATA_H__
 
-#include <stdbool.h>
+#define VIEW_WIDTH 320
+#define VIEW_HEIGHT 256
+#define FRAMERATE 60
 
-struct user_config_t {
-	bool graphics_show_cursor;
-	bool graphics_fullscreen;
-	unsigned int graphics_monitor;
-	bool stat_show_fps;
-};
 
-extern struct user_config_t user_config;
-
-void load_user_config();
-#endif //__BSTH_GAME_CONFIG_H__
+#endif //__BSTH_DATA_H__

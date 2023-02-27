@@ -191,7 +191,7 @@
     <ClInclude Include="Source\Scenes\Name_Creator\Name_Creator.h" />
     <ClInclude Include="Source\Scenes\Profile_Creator\Profile_Creator.h" />
     <ClInclude Include="Source\Scenes.h" />
-    <ClInclude Include="Source\Utility.h" />
+    <ClInclude Include="Source\utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
