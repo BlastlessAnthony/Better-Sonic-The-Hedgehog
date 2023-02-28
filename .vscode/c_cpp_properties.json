@@ -4,7 +4,8 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}${pathSeparator}Raylib${pathSeparator}include${pathSeparator}",
-                "${workspaceFolder}${pathSeparator}source${pathSeparator}**"
+                "${workspaceFolder}${pathSeparator}source${pathSeparator}**",
+                "${workspaceFolder}${pathSeparator}source${pathSeparator}entities${pathSeparator}**"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c17",

@@ -47,6 +47,7 @@ binary_directory_win = $(subst /,\\,$(binary_directory))
 include_directories = \
 	-I "./Raylib/include" \
 	-I "./source" \
+	-I "./source/entities" \
 
 build_architechure := $(processor_architecture)
 build_type := release
@@ -161,7 +162,7 @@ $(binary_directory)/macos/universal/llvm/release/$(executable_file): $(object_fi
 
 # Copy the resources,
 	@[ ! -d "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources" ] && mkdir -p "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources"
-	@cp -r "$(assets_directory)/." "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources"
+	@cp -r "$(assets_directory)/game/." "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Resources"
 
 # - this also includes the property list.
 	@touch "$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/Info.plist"
@@ -179,6 +180,7 @@ $(binary_directory)/macos/universal/llvm/debug/$(executable_file): $(object_file
 	@export MACOSX_DEPLOYMENT_TARGET=10.9
 	@$(macos_c_compiler) $^ -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL -L"./Raylib" -lraylib_macos_universal -o $@
 	@[ ! -d "$(binary_directory)/macos/universal/llvm/debug/resources" ] && mkdir -p "$(binary_directory)/macos/universal/llvm/debug/resources"
+	@cp -r "$(assets_directory)/game/." "$(binary_directory)/macos/universal/llvm/debug/resources"
 
 
 
@@ -205,10 +207,10 @@ $(build_directory)/windows/win64/msvc/$(build_type)/%.o: $(source_directory)/%.c
 
 
 macos_universal_llvm_release_run:
-	$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/MacOS/$(executable_file)
+	@$(binary_directory)/macos/universal/$(build_toolchain)/release/$(project_name).app/Contents/MacOS/$(executable_file)
 
 macos_universal_llvm_debug_run:
-	$(binary_directory)/macos/universal/$(build_toolchain)/debug/$(project_name)
+	@$(binary_directory)/macos/universal/$(build_toolchain)/debug/$(project_name)
 
 macos_clean:
 	@[ -d "$(build_directory)" ] && rm -rf "$(build_directory)" || echo "$(build_directory) doesn't exist."

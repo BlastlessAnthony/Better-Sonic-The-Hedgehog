@@ -3,6 +3,6 @@
 #include <raylib.h>
 #include <stdbool.h>
 #include "game_config.h"
-#include "../Name_Creator/Name_Creator.h"
+#include "../name_Creator/name_Creator.h"
 void profile_creator();
-#endif
+#endif //__BSTH_SCENE_PROFILE_CREATOR__H__
