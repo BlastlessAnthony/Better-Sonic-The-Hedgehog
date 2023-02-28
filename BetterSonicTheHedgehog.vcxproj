@@ -73,22 +73,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <SourcePath>$(SolutionDir)Source;$(SourcePath)</SourcePath>
     <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
+    <OutDir>$(SolutionDir)binary\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <SourcePath>$(SolutionDir)Source;$(SourcePath)</SourcePath>
     <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
+    <OutDir>$(SolutionDir)binary\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <SourcePath>$(SolutionDir)Source;$(SourcePath)</SourcePath>
     <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
-    <OutDir>$(SolutionDir)Visual Studio\Binary\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)Visual Studio\Build\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)binary\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <SourcePath>$(SolutionDir)Source;$(SourcePath)</SourcePath>
     <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
-    <OutDir>$(SolutionDir)Visual Studio\Binary\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)Visual Studio\Build\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)binary\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -108,6 +112,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Raylib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>gdi32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>IF NOT exist "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources" (mkdir "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources")
+xcopy "$(SolutionDir)assets" "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources"  /S /Y /H /Q</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -132,6 +140,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Raylib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>gdi32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>IF NOT exist "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources" (mkdir "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources")
+xcopy "$(SolutionDir)assets" "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources"  /S /Y /H /Q</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -151,6 +163,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Raylib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>gdi32.lib;winmm.lib;raylib_windows_win64_msvc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>IF NOT exist "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources" (mkdir "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources")
+xcopy "$(SolutionDir)assets" "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources"  /S /Y /H /Q</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -175,6 +191,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Raylib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>gdi32.lib;winmm.lib;raylib_windows_win64_msvc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>IF NOT exist "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources" (mkdir "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources")
+xcopy "$(SolutionDir)assets" "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources"  /S /Y /H /Q</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Game.c" />

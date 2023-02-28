@@ -55,16 +55,16 @@ void name_creator()
 		}
 	}
 
-	if (input_select && n_of_letters_in_name < AMOUNT_OF_LETTERS_PER_NAME-1) {
-		if (letter_table[current_line][current_letter] != '<') {
+	if (input_select)
+	{
+		if (letter_table[current_line][current_letter] != '<' && n_of_letters_in_name < AMOUNT_OF_LETTERS_PER_NAME) {
 			name[n_of_letters_in_name] = letter_table[current_line][current_letter];
 			n_of_letters_in_name++;
-		} else {
-			if (n_of_letters_in_name > 0) {
-				name[n_of_letters_in_name -1] = '\0';
-				n_of_letters_in_name--;
-			}
-			
+		}
+		else if (n_of_letters_in_name > 0 && letter_table[current_line][current_letter] == '<') {
+			name[n_of_letters_in_name - 1] = '\0';
+			n_of_letters_in_name--;
 		}
 	}
+	
 }
