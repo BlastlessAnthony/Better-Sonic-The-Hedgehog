@@ -1,5 +1,5 @@
 #ifndef __PIXEL_OPERATOR_8_BOLD_FONT_H__
 #define __PIXEL_OPERATOR_8_BOLD_FONT_H__
-extern unsigned char PixelOperator8_Bold_ttf[];
-unsigned int PixelOperator8_Bold_ttf_len;
+#define PIXEL_OPERATOR_8__BOLD_TTF_BYTE_SIZE (18624)
+extern const unsigned char PixelOperator8_Bold_ttf[PIXEL_OPERATOR_8__BOLD_TTF_BYTE_SIZE];
 #endif //__PIXEL_OPERATOR_8_BOLD_FONT_H__

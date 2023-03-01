@@ -1,5 +1,5 @@
 #ifndef __PIXEL_OPERATOR_FONT_H__
 #define __PIXEL_OPERATOR_FONT_H__
-extern unsigned char PixelOperator_ttf[];
-extern unsigned int PixelOperator_ttf_len;
+#define PIXEL_OPERATOR_TTF_BYTE_SIZE (17272)
+extern const unsigned char PixelOperator_ttf[PIXEL_OPERATOR_TTF_BYTE_SIZE];
 #endif //__PIXEL_OPERATOR_FONT_H__

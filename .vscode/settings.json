@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "pixeloperator8.h": "c",
+        "game_config.h": "c",
+        "pixeloperatorhb.h": "c",
+        "string.h": "c"
+    }
+}

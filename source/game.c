@@ -5,7 +5,7 @@
 #include "data/game_config.h"
 #include "scenes/scenes.h"
 #include "utilities/utility.h"
-
+#include "assets/assets.h"
 
 
 
@@ -21,9 +21,10 @@ int main()
     InitAudioDevice();
     SetTargetFPS(FRAMERATE);
 
-
     addNewSceneToSceneTree(initialize_name_creator, update_name_creator, destroy_name_creator);
+    scene_tree[0]->initialize(); 
 
+    EmbeddedFont *f = newEmbeddedFont(".ttf", PixelOperator_Bold_ttf, PIXEL_OPERATOR_BOLD_TTF_BYTE_SIZE, 32);
     while (!WindowShouldClose())
     {
         float scale = getLetterboxRatio((Vector2) {VIEW_WIDTH, VIEW_HEIGHT});
@@ -48,7 +49,6 @@ int main()
                 (Vector2) { 0, 0 }, 0.0f, WHITE);
         EndDrawing();
     }
-
     UnloadRenderTexture(render_texture);
     CloseWindow();
     exit (EXIT_SUCCESS);
