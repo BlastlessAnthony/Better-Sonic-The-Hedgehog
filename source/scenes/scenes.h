@@ -1,12 +1,12 @@
-#ifndef __BSTH_SCENES_H__
-#define __BSTH_SCENES_H__
-#include <stdlib.h>
-#include "./Name_Creator/name_creator.h"
-#include "entities/scene/scene.h"
+#ifndef __BSTH_SCENE_MANAGER_H__
+#define __BSTH_SCENE_MANAGER_H__
+#include "scene.h"
+#include "name_creator/name_creator.h"
 
-
-extern scene_t **scenes;
 extern unsigned int number_of_scenes;
-void addSceneToSceneTree(scene_t *scene);
+extern scene_t **scene_tree;
 
-#endif //__BSTH_SCENES_H__
+void addSceneToSceneTree(scene_t *scene);
+void addNewSceneToSceneTree(void (*initialization_method)(void), void (*update_method)(void), void (*destroy_method)(void));
+
+#endif //__BSTH_SCENE_MANAGER_H__

@@ -3,9 +3,7 @@
 #include <raylib.h>
 #include <string.h>
 #include <stdbool.h>
-
-Vector2 AddVectors(Vector2 v1, Vector2 v2);
 const char* GetResourcePath();
 bool isInDebugMode();
-
+float getLetterboxRatio(Vector2 resolution);
 #endif //__BTH_UTILITY_H__

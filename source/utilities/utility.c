@@ -1,7 +1,11 @@
 #include "utility.h"
 
-Vector2 AddVectors(Vector2 v1, Vector2 v2) {
-	return (Vector2) { v1.x + v2.x, v1.y + v2.y };
+
+float getLetterboxRatio(Vector2 resolution)
+{
+    #define MAX(a, b) ((a)>(b)? (a) : (b))
+    #define MIN(a, b) ((a)<(b)? (a) : (b))
+    return MIN((float)GetScreenWidth() / resolution.x, (float)GetScreenHeight() / resolution.y);
 }
 
 const char* GetResourcePath()

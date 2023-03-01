@@ -1,13 +1,27 @@
-#include "./scenes.h"
+#include "scenes.h"
 
-scene_t **scenes = NULL;
-unsigned int number_of_scenes = 0;
+unsigned int number_of_scenes;
+scene_t** scene_tree;
 
-void addSceneToSceneTree(scene_t *scene)
+void addSceneToSceneTree(scene_t* scene)
 {
-    __scenes = realloc(scenes, scene);
-    if (!__scenes) {
-        __scenes[number_of_scenes] = scene;
-        scenes = __scenes;
-    }
+	scene_t** __scene_tree = realloc(scene_tree, sizeof(scene));
+	if (!__scene_tree)
+		return;
+	
+	__scene_tree[number_of_scenes] = scene;
+	scene_tree = __scene_tree;
+	free(__scene_tree);
+}
+
+
+void addNewSceneToSceneTree(void (*initialization_method)(void), void (*update_method)(void), void (*destroy_method)(void))
+{
+	scene_t* scene = malloc(sizeof(scene_t*));
+	if (!scene) { return NULL; }
+	scene->initialize = initialization_method;
+	scene->update = update_method;
+	scene->destroy = destroy_method;
+
+	addSceneToSceneTree(scene);
 }

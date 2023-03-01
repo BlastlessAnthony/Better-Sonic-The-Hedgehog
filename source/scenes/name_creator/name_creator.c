@@ -1,4 +1,4 @@
-#include "./name_creator.h"
+#include "name_creator.h"
 
 
 char **letter_table;
@@ -15,10 +15,12 @@ char name[AMOUNT_OF_LETTERS_PER_NAME];
 
 struct menu_input_ds *menu_input;
 
+scene_t* name_creator;
+
 void initialize_name_creator()
 {
-	letter_table = malloc( sizeof(char*) * (LETTERS_PER_SET*LETTER_TABLE_SETS));
-	letter_table[0]= 's';
+	letter_table = malloc( sizeof(char*) * (LETTERS_PER_SET*LETTER_TABLE_SETS) );
+
 
 	header_font = LoadFont(TextFormat("%sfonts/PixelOperator/PixelOperatorSC-Bold.ttf", GetResourcePath()));
 	display_font = LoadFont(TextFormat("%sfonts/PixelOperator/PixelOperator-Bold.ttf", GetResourcePath()));

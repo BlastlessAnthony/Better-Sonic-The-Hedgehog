@@ -2,12 +2,11 @@
 #include <raymath.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "game_config.h"
+#include "data/game_config.h"
 #include "scenes/scenes.h"
+#include "utilities/utility.h"
 
 
-#define MAX(a, b) ((a)>(b)? (a) : (b))
-#define MIN(a, b) ((a)<(b)? (a) : (b))
 
 
 int main()
@@ -16,17 +15,18 @@ int main()
     SetWindowState(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
     SetWindowMinSize(VIEW_WIDTH, VIEW_HEIGHT);
 
-    addSceneToSceneTree(name_creator);
-
     RenderTexture2D render_texture = LoadRenderTexture(VIEW_WIDTH, VIEW_HEIGHT);
     SetTextureFilter(render_texture.texture, TEXTURE_FILTER_POINT);
     
     InitAudioDevice();
     SetTargetFPS(FRAMERATE);
 
+
+    addNewSceneToSceneTree(initialize_name_creator, update_name_creator, destroy_name_creator);
+
     while (!WindowShouldClose())
     {
-        float scale = MIN((float)GetScreenWidth() / VIEW_WIDTH, (float)GetScreenHeight() / VIEW_HEIGHT);
+        float scale = getLetterboxRatio((Vector2) {VIEW_WIDTH, VIEW_HEIGHT});
 
         BeginTextureMode(render_texture);
         ClearBackground(BLACK);
@@ -53,3 +53,4 @@ int main()
     CloseWindow();
     exit (EXIT_SUCCESS);
 }
+

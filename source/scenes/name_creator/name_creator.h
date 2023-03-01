@@ -3,9 +3,9 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "raylib.h"
-#include "game_config.h"
-#include "utility.h"
-#include "entities/scene/scene.h"
+#include "data/game_config.h"
+#include "utilities/utility.h"
+#include "scenes/scene.h"
 
 #define LETTERS_PER_SET (8)
 #define LETTER_TABLE_SETS (7)
@@ -23,11 +23,11 @@ extern char name[AMOUNT_OF_LETTERS_PER_NAME];
 extern unsigned int n_of_letters_in_name;
 
 struct menu_input_ds {
-	bool *left;
-	bool *right;
-	bool *up;
-	bool *down;
-	bool *select;
+	bool left;
+	bool right;
+	bool up;
+	bool down;
+	bool select;
 };
 
 extern struct menu_input_ds *menu_input;
