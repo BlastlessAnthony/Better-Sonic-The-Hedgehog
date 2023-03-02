@@ -21,11 +21,6 @@ void initialize_name_creator()
 {
 	letter_table = malloc( sizeof(char*) * (LETTERS_PER_SET*LETTER_TABLE_SETS) );
 
-
-	header_font = LoadFont(TextFormat("%sfonts/PixelOperator/PixelOperatorSC-Bold.ttf", GetResourcePath()));
-	display_font = LoadFont(TextFormat("%sfonts/PixelOperator/PixelOperator-Bold.ttf", GetResourcePath()));
-
-
 	struct menu_input_ds *menu_input = malloc(sizeof(struct menu_input_ds*));
 }
 

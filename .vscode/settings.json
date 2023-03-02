@@ -3,6 +3,9 @@
         "pixeloperator8.h": "c",
         "game_config.h": "c",
         "pixeloperatorhb.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "targetconditionals.h": "c",
+        "name_creator.h": "c",
+        "scenes.h": "c"
     }
 }
