@@ -3,10 +3,14 @@
 #include "scene.h"
 #include "name_creator/name_creator.h"
 
-extern unsigned int number_of_scenes;
-extern scene_t **scene_tree;
+
+typedef struct  {
+	scene_t** scenes;
+	unsigned int number_of_scenes;
+} scene_tree_t;
 
 void addSceneToSceneTree(scene_t *scene);
-void addNewSceneToSceneTree(void (*initialization_method)(void), void (*update_method)(void), void (*destroy_method)(void));
+scene_tree_t* newSceneTree();
+scene_tree_t *addNewSceneToSceneTree(scene_tree_t *scene_tree, void (*initialization_method)(void), void (*update_method)(void), void (*destroy_method)(void));
 
 #endif //__BSTH_SCENE_MANAGER_H__

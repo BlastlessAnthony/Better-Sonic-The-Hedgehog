@@ -215,6 +215,9 @@ xcopy "$(SolutionDir)assets" "$(SolutionDir)binary\$(Platform)\$(Configuration)\
     <ClInclude Include="Raylib\include\raylib.h" />
     <ClInclude Include="Raylib\include\raymath.h" />
     <ClInclude Include="Raylib\include\rlgl.h" />
+    <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperator.h" />
+    <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperator8-Bold.h" />
+    <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperator8.h" />
     <ClInclude Include="Source\game_config.h" />
     <ClInclude Include="Source\Scenes\Name_Creator\name_creator.h" />
     <ClInclude Include="Source\Scenes\Profile_Creator\profile_creator.h" />

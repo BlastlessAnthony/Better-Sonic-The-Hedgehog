@@ -21,10 +21,9 @@ int main()
     InitAudioDevice();
     SetTargetFPS(FRAMERATE);
 
-    addNewSceneToSceneTree(initialize_name_creator, update_name_creator, destroy_name_creator);
-    scene_tree[0]->initialize(); 
+    scene_tree_t* scene_tree = newSceneTree();
+    scene_tree = addNewSceneToSceneTree(scene_tree, initialize_name_creator, update_name_creator, destroy_name_creator);
 
-    EmbeddedFont *f = newEmbeddedFont(".ttf", PixelOperator_Bold_ttf, PIXEL_OPERATOR_BOLD_TTF_BYTE_SIZE, 32);
     while (!WindowShouldClose())
     {
         float scale = getLetterboxRatio((Vector2) {VIEW_WIDTH, VIEW_HEIGHT});

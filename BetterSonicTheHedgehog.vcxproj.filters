@@ -24,14 +24,14 @@
     <ClCompile Include="Source\Scenes\Name_Creator\Name_Creator.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utility.c">
+    <ClCompile Include="source\scenes\scenes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\utilities\utility.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Scenes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -54,6 +54,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\utility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\scenes\scenes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperator8.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperator8-Bold.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
