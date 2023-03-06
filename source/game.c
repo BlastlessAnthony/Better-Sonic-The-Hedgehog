@@ -8,6 +8,8 @@
 #include "assets/assets.h"
 
 
+void draw(RenderTexture2D render_texture, Color clear_color, scene_t* scene, float delta);
+void render(RenderTexture2D render_texture, Color clear_color, unsigned int render_width, unsigned int render_height);
 
 int main()
 {
@@ -17,7 +19,7 @@ int main()
     SetExitKey(NULL);
 
     RenderTexture2D render_texture = LoadRenderTexture(VIEW_WIDTH, VIEW_HEIGHT);
-    SetTextureFilter(render_texture.texture, TEXTURE_FILTER_POINT);
+    SetTextureFilter(render_texture.texture, TEXTURE_FILTER_TRILINEAR);
     
     InitAudioDevice();
     SetTargetFPS(FRAMERATE);
@@ -27,54 +29,79 @@ int main()
 
     float window_opacity = 1.0f;
     unsigned int game_end = 0;
-    /***************************************/
 
 
-    scene_tree_t *scene_tree = newSceneTree();
-    /***************************************/
+    instaniate_scenes();
+    change_scene(sega_splash_screen);
 
-    scene_t *k = newScene(initialize_name_creator, update_name_creator, destroy_name_creator);
-    scene_tree = addSceneToSceneTree(scene_tree, k);
+
     while (!game_end)
     {
         game_end = (unsigned int)WindowShouldClose();
-        float scale = getLetterboxRatio((Vector2) {VIEW_WIDTH, VIEW_HEIGHT});
+        draw(render_texture, BLACK, current_scene, GetFrameTime());
+        render(render_texture, BLACK, VIEW_WIDTH, VIEW_HEIGHT);
+        
 
-        BeginTextureMode(render_texture);
-        ClearBackground(BLACK);
-
-        EndTextureMode();
-
-        BeginDrawing();
-            ClearBackground(BLACK);
-            DrawTexturePro(
-                render_texture.texture, 
-                (Rectangle) { 0.0f, 0.0f, (float)render_texture.texture.width, (float)-render_texture.texture.height },
-                (Rectangle) {(GetScreenWidth() - ((float)VIEW_WIDTH * scale)) * 0.5f, (GetScreenHeight() - ((float)VIEW_HEIGHT * scale)) * 0.5f,
-                (float)VIEW_WIDTH* scale, (float)VIEW_HEIGHT* scale}, 
-                (Vector2) { 0, 0 }, 0.0f, WHITE);
-        EndDrawing();
-
-        SetWindowOpacity(window_opacity);
-
-        if (!IsWindowFocused())
-            window_opacity = 0.5f;
-        else
+        if (!IsWindowFocused()) {
+            if (window_opacity != 0.5f)
+                window_opacity = 0.5f;
+                SetWindowOpacity(window_opacity);
+        }    
+        else if (IsWindowFocused()) {
             if (!IsKeyDown(KEY_ESCAPE)) {
-                window_opacity = 1.0f;
+                if (window_opacity != 1.0f)
+                    window_opacity = 1.0f;
+                SetWindowOpacity(window_opacity);
             }
+        }
+        
+        /* Buggy. Don't use.
+        if (IsKeyDown(KEY_F4))
+            ToggleFullscreen();
+        */
+        
             
-
         if (IsKeyDown(KEY_ESCAPE)) 
             window_opacity -= 0.08f;
+            SetWindowOpacity(window_opacity);
 
         if (window_opacity <= 0) {
             game_end = 1;
         }
     }
 
+    change_scene(NULL);
     UnloadImage(window_icon);
     UnloadRenderTexture(render_texture);
     CloseWindow();
     exit (EXIT_SUCCESS);
+}
+
+void draw(RenderTexture2D render_texture, Color clear_color, scene_t *scene, float delta)
+{
+    BeginTextureMode(render_texture);
+        ClearBackground(clear_color);
+        if (scene)
+            (scene->update)(delta);
+    EndTextureMode();
+}
+
+void render(RenderTexture2D render_texture, Color clear_color, unsigned int render_width, unsigned int render_height)
+{
+    float scale = getLetterboxRatio((Vector2) { (float)render_width, (float)render_height});
+
+    BeginDrawing();
+        ClearBackground(BLACK);
+        DrawTexturePro(
+            render_texture.texture,
+            (Rectangle) {0.0f, 0.0f, 
+                (float)render_texture.texture.width, (float)-render_texture.texture.height},
+
+            (Rectangle) { (GetScreenWidth() - ((float)render_width * scale)) * 0.5f, 
+                (GetScreenHeight() - ((float)render_height * scale)) * 0.5f,
+                    (float)render_width* scale, (float)render_height* scale},
+
+            (Vector2) {0, 0}, 0.0f, WHITE
+        );
+    EndDrawing();
 }

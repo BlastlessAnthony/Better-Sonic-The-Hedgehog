@@ -112,7 +112,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ShowProgress>LinkVerbose</ShowProgress>
       <AdditionalLibraryDirectories>$(SolutionDir)Raylib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gdi32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>IF NOT exist "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources" (mkdir "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources")
@@ -142,7 +143,8 @@ xcopy "$(SolutionDir)assets" "$(SolutionDir)binary\$(Platform)\$(Configuration)\
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ShowProgress>LinkVerbose</ShowProgress>
       <AdditionalLibraryDirectories>$(SolutionDir)Raylib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gdi32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
@@ -166,7 +168,7 @@ xcopy "$(SolutionDir)assets" "$(SolutionDir)binary\$(Platform)\$(Configuration)\
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ShowProgress>LinkVerbose</ShowProgress>
       <AdditionalLibraryDirectories>$(SolutionDir)Raylib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gdi32.lib;winmm.lib;raylib_windows_win64_msvc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>raylib_windows_win64_msvc.lib;user32.lib;shell32.lib;gdi32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>IF NOT exist "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources" (mkdir "$(SolutionDir)binary\$(Platform)\$(Configuration)\resources")
@@ -196,7 +198,7 @@ xcopy "$(SolutionDir)assets" "$(SolutionDir)binary\$(Platform)\$(Configuration)\
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ShowProgress>LinkVerbose</ShowProgress>
       <AdditionalLibraryDirectories>$(SolutionDir)Raylib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gdi32.lib;winmm.lib;raylib_windows_win64_msvc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>raylib_windows_win64_msvc.lib;user32.lib;shell32.lib;gdi32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
@@ -206,24 +208,54 @@ xcopy "$(SolutionDir)assets" "$(SolutionDir)binary\$(Platform)\$(Configuration)\
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\game.c" />
-    <ClCompile Include="source\scenes\name_creator\name_creator.c" />
-    <ClCompile Include="source\scenes\profile_creator\profile_creator.c" />
+    <ClCompile Include="source\objects\sprite.c" />
+    <ClCompile Include="source\scenes\logos_splash_screen\logos_splash_screen.c" />
+    <ClCompile Include="source\scenes\scene.c" />
     <ClCompile Include="source\scenes\scenes.c" />
+    <ClCompile Include="source\scenes\sega_splash_screen\sega_splash_screen.c" />
+    <ClCompile Include="source\scenes\title_screen\title_screen.c" />
     <ClCompile Include="source\utilities\utility.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\assets\images\raylib-animated-logo.h" />
+    <ClInclude Include="source\assets\images\sonic-team-presents.h" />
+    <ClInclude Include="source\assets\images\title-screen.h" />
+    <ClInclude Include="source\assets\sounds\sega_chant.h" />
+    <ClInclude Include="source\assets\images\sega-splash-screen.h" />
     <ClInclude Include="Raylib\include\raylib.h" />
     <ClInclude Include="Raylib\include\raymath.h" />
     <ClInclude Include="Raylib\include\rlgl.h" />
+    <ClInclude Include="source\assets\assets.h" />
+    <ClInclude Include="source\assets\fonts\fonts.h" />
+    <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperator-Bold.h" />
     <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperator.h" />
     <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperator8-Bold.h" />
     <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperator8.h" />
+    <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperatorHB.h" />
+    <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperatorHB8.h" />
+    <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperatorHBSC.h" />
+    <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperatorMono-Bold.h" />
+    <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperatorMono.h" />
+    <ClInclude Include="source\assets\fonts\PixelOperator\pixeloperator_font_family.h" />
+    <ClInclude Include="source\assets\images\bettersonic_icon.h" />
+    <ClInclude Include="source\assets\images\images.h" />
+    <ClInclude Include="source\assets\sounds\sounds.h" />
+    <ClInclude Include="source\data\game_config.h" />
     <ClInclude Include="Source\game_config.h" />
-    <ClInclude Include="Source\Scenes\Name_Creator\name_creator.h" />
-    <ClInclude Include="Source\Scenes\Profile_Creator\profile_creator.h" />
+    <ClInclude Include="source\objects\sprite.h" />
     <ClInclude Include="Source\Scenes.h" />
+    <ClInclude Include="source\scenes\logos_splash_screen\logos_splash_screen.h" />
+    <ClInclude Include="source\scenes\scene.h" />
     <ClInclude Include="source\scenes\scenes.h" />
+    <ClInclude Include="source\scenes\sega_splash_screen\sega_splash_screen.h" />
+    <ClInclude Include="source\scenes\title_screen\title_screen.h" />
+    <ClInclude Include="source\utilities\platform.h" />
+    <ClInclude Include="source\utilities\utility.h" />
     <ClInclude Include="Source\utility.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Raylib\raylib_windows_win32_msvc.lib" />
+    <Library Include="Raylib\raylib_windows_win64_msvc.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

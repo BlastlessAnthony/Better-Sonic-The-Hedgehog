@@ -1,5 +1,0 @@
-#ifndef __PIXEL_OPERATOR_HBSC_FONT_H__
-#define __PIXEL_OPERATOR_HBSC_FONT_H__
-#define PIXEL_OPERATOR_HBSC_TTF_BYTE_SIZE (17112)
-extern const unsigned char PixelOperatorHBSC_ttf[PIXEL_OPERATOR_HBSC_TTF_BYTE_SIZE];
-#endif //__PIXEL_OPERATOR_HBSC_FONT_H__

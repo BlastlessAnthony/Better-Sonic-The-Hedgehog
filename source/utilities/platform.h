@@ -18,40 +18,75 @@
 #define OS_OBSD "OPENBSD" /// @brief The identification for OpenBSD.
 
 #ifdef __WIN32 || _WIN64
+
         #define OS_PLATFORM OS_WINDOWS
+
 #elif __APPLE__ || __MACH__
+
     #include <TargetConditionals.h>
+
     #ifdef TARGET_OS_MAC
+
         #define OS_PLATFORM OS_MACOSX
+
     #elif TARGET_OS_IPHONE
+
         #define OS_PLATFORM OS_IPHONE
+
     #elif TARGET_OS_EMBEDDED
+
         #define OS_PLATFORM OS_IOSEMD
+
     #endif
+
 #elif __linux__
+
     #define OS_PLATFORM OS_LINUX
+
 #elif _POSIX_VERSION
+
     #define OS_PLATFORM OS_POSIX
+
 #elif __unix__
+
     #define OS_PLATFORM OS_UNIX
+
 #elif __ANDROID__
+
     #define OS_PLATFORM OS_ANDROID
+
 #elif __sun
+
     #define OS_PLATFORM OS_SUNMS
+
 #elif __hpux
+
     #define OS_PLATFORM OS_HPUX
+
 #elif BSD
+
     #define OS_PLATFORM OS_BSD
+
 #elif __DragonFly__
+
     #define OS_PLATFORM OS_DFLY
+
 #elif __FreeBSD__
+
     #define OS_PLATFORM OS_FBSD
+
 #elif __NetBSD__
+
     #define OS_PLATFORM OS_NBSD
+
 #elif __OpenBSD__
+
     #define OS_PLATFORM OS_OBSD
+
+
 #else
     #define OS_PLATFORM "UNKNOWN"
-#endif //__WIN32 || _WIN64
+
+#endif
 
 #endif //__C_UTILITY_PLATFORM_H__

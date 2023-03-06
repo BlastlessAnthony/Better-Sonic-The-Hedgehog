@@ -20,6 +20,6 @@ typedef struct  {
  * @returns A created scene or NULL
  * if the malloc fails. Be careful!
  */
-scene_t *newScene( void (*initialization_method)(), void (*update_method)(float), void (*destroy_method)());
+extern scene_t *newScene( void (*initialization_method)(), void (*update_method)(float), void (*destroy_method)());
 
 #endif //__BSTH_SCENE_TEMPLATE_H__

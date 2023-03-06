@@ -1,5 +1,0 @@
-#ifndef __PIXEL_OPERATOR_MONO_FONT_H__
-#define __PIXEL_OPERATOR_MONO_FONT_H__
-#define PIXEL_OPERATOR_MONO_TTF_BYTE_SIZE (16972)
-extern const unsigned char PixelOperatorMono_ttf[PIXEL_OPERATOR_MONO_TTF_BYTE_SIZE];
-#endif //__PIXEL_OPERATOR_MONO_FONT_H__
