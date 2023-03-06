@@ -3,14 +3,20 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}${pathSeparator}Raylib${pathSeparator}include${pathSeparator}",
-                "${workspaceFolder}${pathSeparator}source${pathSeparator}**"
+                "${workspaceFolder}${pathSeparator}source${pathSeparator}**",
+                "${workspaceFolder}${pathSeparator}Raylib${pathSeparator}include${pathSeparator}**",
+                "${workspaceFolder}/Raylib/include"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "macos-gcc-x64",
-            "configurationProvider": "ms-vscode.makefile-tools"
+            "configurationProvider": "ms-vscode.makefile-tools",
+            "forcedInclude": [
+                "${workspaceFolder}${pathSeparator}Raylib${pathSeparator}include${pathSeparator}raylib.h",
+                "${workspaceFolder}${pathSeparator}Raylib${pathSeparator}include${pathSeparator}raymath.h",
+                "${workspaceFolder}${pathSeparator}Raylib${pathSeparator}include${pathSeparator}rlgl.h"
+            ]
         },
         {
             "name": "Win32",

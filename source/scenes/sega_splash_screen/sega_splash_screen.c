@@ -1,7 +1,7 @@
 #include "sega_splash_screen.h"
 scene_t* sega_splash_screen;
 
-Texture2D sega_logo;
+sprite_atlas_t *sega_logo;
 Image sega_logo_img;
 Sound sega_chant;
 int i = 0;
@@ -12,7 +12,7 @@ float animation_timer = 0;
 void initialize_sega_splash_screen()
 {
 	sega_logo_img = LoadImageFromMemory(".png", sega_splash_screen_png, SEGA_SPLASH_SCREEN_PNG_BYTE_SIZE);
-	sega_logo = LoadTextureFromImage(sega_logo_img);
+	sega_logo = newSpriteAtlas(LoadTextureFromImage(sega_logo_img), (Vector2){320, 224}, 1, 25);
 	Wave sg_chnt_wv = LoadWaveFromMemory(".wav", sega_chant_wav, SEGA_CHANT_WAV_BYTE_SIZE);
 	sega_chant = LoadSoundFromWave(sg_chnt_wv);
 	UnloadWave(sg_chnt_wv);
@@ -24,20 +24,20 @@ void update_sega_splash_screen(float delta)
 	DrawRectangle(0, 0, VIEW_WIDTH, VIEW_HEIGHT, (Color) {255, 255, 255, 255});
 	animation_timer += 30 * delta;
 	if (animation_timer >= 1) {
-		if (current_logo_frame < 24) {
-			current_logo_frame++;
+		if (sega_logo->frame < 24) {
+			sega_logo->frame++;
 		}
 		animation_timer = 0;
 	}
 
-	if (current_logo_frame >= 24 && i == 0) {
+	if (sega_logo->frame >= 24 && i == 0) {
 		PlaySound(sega_chant);
 		i = 1;
 	}
 		
 	if (IsKeyPressed(KEY_ENTER) || (IsGamepadAvailable(0) && IsGamepadButtonPressed(0, GAMEPAD_BUTTON_MIDDLE_RIGHT))) {
 		animation_timer = 0;
-		current_logo_frame = 24;
+		sega_logo->frame = 24;
 	}
 
 	if (i == 1 && !IsSoundPlaying(sega_chant) && fade_opacity < 255.f) {
@@ -47,8 +47,7 @@ void update_sega_splash_screen(float delta)
 	if (fade_opacity >= 255.f)
 		change_scene(logos_splash_screen);
 
-	DrawTextureRec(sega_logo, (Rectangle) { 0.f + (320.f * (float)current_logo_frame), 0.f, 320.f, 224.f }, (Vector2) { 0.f, 0.f }, (Color){ 0xFF, 0xFF, 0xFF, 0xFF });
-
+	drawSpriteAtlas(sega_logo);
 	BeginBlendMode(BLEND_MULTIPLIED);
 	DrawRectangle(0, 0, (float)VIEW_WIDTH, (float)VIEW_HEIGHT, (Color) { 0x00, 0x00, 0x00, (unsigned int)fade_opacity });
 	EndBlendMode();
@@ -56,6 +55,6 @@ void update_sega_splash_screen(float delta)
 
 void destroy_sega_splash_screen()
 {
-	UnloadTexture(sega_logo);
+	destroySpriteAtlas(sega_logo);
 	UnloadSound(sega_chant);
 }

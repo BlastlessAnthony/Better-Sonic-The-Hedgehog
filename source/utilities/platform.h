@@ -17,7 +17,7 @@
 #define OS_NBSD "NETBSD" /// @brief The identification for NetBSD.
 #define OS_OBSD "OPENBSD" /// @brief The identification for OpenBSD.
 
-#ifdef __WIN32 || _WIN64
+#ifdef __WIN32
 
         #define OS_PLATFORM OS_WINDOWS
 

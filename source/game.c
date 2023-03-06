@@ -14,9 +14,9 @@ void render(RenderTexture2D render_texture, Color clear_color, unsigned int rend
 int main()
 {
     InitWindow(VIEW_WIDTH, VIEW_HEIGHT, "Better Sonic The Hedgehog");
-    SetWindowState(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
+    SetWindowState(FLAG_WINDOW_RESIZABLE);
     SetWindowMinSize(VIEW_WIDTH, VIEW_HEIGHT);
-    SetExitKey(NULL);
+    SetExitKey(189);
 
     RenderTexture2D render_texture = LoadRenderTexture(VIEW_WIDTH, VIEW_HEIGHT);
     SetTextureFilter(render_texture.texture, TEXTURE_FILTER_TRILINEAR);
@@ -43,15 +43,18 @@ int main()
         
 
         if (!IsWindowFocused()) {
-            if (window_opacity != 0.5f)
+            if (window_opacity != 0.5f) {
                 window_opacity = 0.5f;
                 SetWindowOpacity(window_opacity);
+            }
+                
         }    
         else if (IsWindowFocused()) {
             if (!IsKeyDown(KEY_ESCAPE)) {
-                if (window_opacity != 1.0f)
+                if (window_opacity != 1.0f) {
                     window_opacity = 1.0f;
-                SetWindowOpacity(window_opacity);
+                    SetWindowOpacity(window_opacity);
+                }
             }
         }
         
@@ -61,9 +64,10 @@ int main()
         */
         
             
-        if (IsKeyDown(KEY_ESCAPE)) 
+        if (IsKeyDown(KEY_ESCAPE)) {
             window_opacity -= 0.08f;
             SetWindowOpacity(window_opacity);
+        }
 
         if (window_opacity <= 0) {
             game_end = 1;
@@ -83,6 +87,10 @@ void draw(RenderTexture2D render_texture, Color clear_color, scene_t *scene, flo
         ClearBackground(clear_color);
         if (scene)
             (scene->update)(delta);
+
+        if (isInDebugMode()) {
+            DrawFPS(0, 0);
+        }
     EndTextureMode();
 }
 
