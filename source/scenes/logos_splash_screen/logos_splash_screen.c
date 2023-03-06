@@ -30,5 +30,5 @@ void update_logos_splash_screen(float delta)
 
 void destroy_logos_splash_screen()
 {
-	destroySpriteAtlas(raylib_logo);
+	//destroySpriteAtlas(raylib_logo);
 }

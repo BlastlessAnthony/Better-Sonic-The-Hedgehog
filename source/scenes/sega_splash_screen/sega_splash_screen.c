@@ -55,6 +55,5 @@ void update_sega_splash_screen(float delta)
 
 void destroy_sega_splash_screen()
 {
-	destroySpriteAtlas(sega_logo);
 	UnloadSound(sega_chant);
 }

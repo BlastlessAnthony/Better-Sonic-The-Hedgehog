@@ -25,7 +25,6 @@ sprite_atlas_t* newSpriteAtlas(Texture2D texture_atlas, Vector2 texture_size, un
 	return sprite;
 }
 
-void destroySpriteAtlas(sprite_atlas_t *sprite) {free(sprite);}
 
 void drawSpriteAtlas(sprite_atlas_t *sprite){
 	float _x, _y;

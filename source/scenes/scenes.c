@@ -15,11 +15,11 @@ void instaniate_scenes() {
 /// </summary>
 /// <param name="scene">The scene to change to.</param>
 void change_scene(scene_t* scene) {
-	if (current_scene)
+	if (current_scene) {
 		(current_scene->destroy)();
-	current_scene = NULL;
+	}
 
-	current_scene = malloc(sizeof(scene_t*));
+	current_scene = realloc(current_scene, sizeof(scene));
 	current_scene = scene;
 	if (scene) {
 		(current_scene->initialize)();
