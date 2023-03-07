@@ -5,11 +5,11 @@
 #include <stdlib.h>
 
 /// @brief An object that holds function pointers to other source files.
-typedef struct  {
+typedef struct {
     void (*initialize) ();
     void (*update) (float);
     void (*destroy) ();
-} scene_t;
+} Scene;
 
 /**
  * @brief 
@@ -20,6 +20,6 @@ typedef struct  {
  * @returns A created scene or NULL
  * if the malloc fails. Be careful!
  */
-extern scene_t *newScene( void (*initialization_method)(), void (*update_method)(float), void (*destroy_method)());
+extern Scene *newScene( void (*initialization_method)(), void (*update_method)(float), void (*destroy_method)());
 
 #endif //__BSTH_SCENE_TEMPLATE_H__

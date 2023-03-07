@@ -1,11 +1,6 @@
 #include <raylib.h>
 #include <raymath.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "data/game_config.h"
-#include "scenes/scenes.h"
-#include "utilities/utility.h"
-#include "assets/assets.h"
+#include "Data/Game Configuration.h"
 
 
 void draw(RenderTexture2D render_texture, Color clear_color, scene_t* scene, float delta);
@@ -13,16 +8,16 @@ void render(RenderTexture2D render_texture, Color clear_color, unsigned int rend
 
 int main()
 {
-    InitWindow(VIEW_WIDTH, VIEW_HEIGHT, "Better Sonic The Hedgehog");
+    InitWindow( (int)VIEWPORT_WIDTH, (int)VIEWPORT_HEIGHT, "Better Sonic The Hedgehog");
     SetWindowState(FLAG_WINDOW_RESIZABLE);
-    SetWindowMinSize(VIEW_WIDTH, VIEW_HEIGHT);
+    SetWindowMinSize( (int)VIEWPORT_WIDTH, (int)VIEWPORT_HEIGHT);
     SetExitKey(189);
 
-    RenderTexture2D render_texture = LoadRenderTexture(VIEW_WIDTH, VIEW_HEIGHT);
+    RenderTexture2D render_texture = LoadRenderTexture(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
     SetTextureFilter(render_texture.texture, TEXTURE_FILTER_TRILINEAR);
     
     InitAudioDevice();
-    SetTargetFPS(FRAMERATE);
+    SetTargetFPS((int)FRAMERATE);
 
     Image window_icon = LoadImageFromMemory(".png", bettersonic_icon_png, BETTER_SONIC_ICON_BYTE_SIZE);
     SetWindowIcon(window_icon);
@@ -78,7 +73,7 @@ int main()
     UnloadImage(window_icon);
     UnloadRenderTexture(render_texture);
     CloseWindow();
-    exit (EXIT_SUCCESS);
+    return 0;
 }
 
 void draw(RenderTexture2D render_texture, Color clear_color, scene_t *scene, float delta)

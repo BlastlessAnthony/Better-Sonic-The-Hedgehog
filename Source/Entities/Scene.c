@@ -1,8 +1,8 @@
 #include "scene.h"
 
-scene_t* newScene(void (*initialization_method)(), void (*update_method)(float), void (*destroy_method)())
+Scene* newScene(void (*initialization_method)(), void (*update_method)(float), void (*destroy_method)())
 {
-    scene_t* scene = malloc(sizeof(scene_t*));
+    Scene* scene = malloc(sizeof(Scene*));
     if (!scene)
         return NULL;
 

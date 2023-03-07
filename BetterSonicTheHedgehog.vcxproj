@@ -207,12 +207,17 @@ xcopy "$(SolutionDir)assets" "$(SolutionDir)binary\$(Platform)\$(Configuration)\
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Entities\Scene.c" />
+    <ClCompile Include="Source\Entities\Sprite Atlas.c" />
     <ClCompile Include="source\game.c" />
     <ClCompile Include="source\objects\sprite.c" />
+    <ClCompile Include="Source\Scenes\Logos Splash Screen\Logos Splash Screen.c" />
     <ClCompile Include="source\scenes\logos_splash_screen\logos_splash_screen.c" />
     <ClCompile Include="source\scenes\scene.c" />
     <ClCompile Include="source\scenes\scenes.c" />
+    <ClCompile Include="Source\Scenes\Sega Splash Screen\Sega Splash Screen.c" />
     <ClCompile Include="source\scenes\sega_splash_screen\sega_splash_screen.c" />
+    <ClCompile Include="Source\Scenes\Title Screen\Title Screen.c" />
     <ClCompile Include="source\scenes\title_screen\title_screen.c" />
     <ClCompile Include="source\utilities\utility.c" />
   </ItemGroup>
@@ -240,14 +245,29 @@ xcopy "$(SolutionDir)assets" "$(SolutionDir)binary\$(Platform)\$(Configuration)\
     <ClInclude Include="source\assets\images\bettersonic_icon.h" />
     <ClInclude Include="source\assets\images\images.h" />
     <ClInclude Include="source\assets\sounds\sounds.h" />
-    <ClInclude Include="source\data\game_config.h" />
+    <ClInclude Include="source\data\Game Configuration.h" />
+    <ClInclude Include="Source\Embedded Fonts\Assets.h" />
+    <ClInclude Include="Source\Embedded Fonts\Fonts\Fonts.h" />
+    <ClInclude Include="Source\Embedded Fonts\Images\bettersonic_icon.h" />
+    <ClInclude Include="Source\Embedded Fonts\Images\Images.h" />
+    <ClInclude Include="Source\Embedded Fonts\Images\raylib-animated-logo.h" />
+    <ClInclude Include="Source\Embedded Fonts\Images\sega-splash-screen.h" />
+    <ClInclude Include="Source\Embedded Fonts\Images\sonic-team-presents.h" />
+    <ClInclude Include="Source\Embedded Fonts\Images\title-screen.h" />
+    <ClInclude Include="Source\Embedded Fonts\Sound Effects\Sega Chant.h" />
+    <ClInclude Include="Source\Embedded Fonts\Sound Effects\Sound Effects.h" />
+    <ClInclude Include="Source\Entities\Scene.h" />
+    <ClInclude Include="Source\Entities\Sprite Atlas.h" />
     <ClInclude Include="Source\game_config.h" />
     <ClInclude Include="source\objects\sprite.h" />
     <ClInclude Include="Source\Scenes.h" />
+    <ClInclude Include="Source\Scenes\Logos Splash Screen\Logos Splash Screen.h" />
     <ClInclude Include="source\scenes\logos_splash_screen\logos_splash_screen.h" />
     <ClInclude Include="source\scenes\scene.h" />
     <ClInclude Include="source\scenes\scenes.h" />
+    <ClInclude Include="Source\Scenes\Sega Splash Screen\Sega Splash Screen.h" />
     <ClInclude Include="source\scenes\sega_splash_screen\sega_splash_screen.h" />
+    <ClInclude Include="Source\Scenes\Title Screen\Title Screen.h" />
     <ClInclude Include="source\scenes\title_screen\title_screen.h" />
     <ClInclude Include="source\utilities\platform.h" />
     <ClInclude Include="source\utilities\utility.h" />

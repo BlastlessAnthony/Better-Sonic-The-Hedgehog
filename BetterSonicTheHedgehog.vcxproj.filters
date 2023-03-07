@@ -39,6 +39,21 @@
     <ClCompile Include="source\objects\sprite.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Entities\Scene.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entities\Sprite Atlas.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\Logos Splash Screen\Logos Splash Screen.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\Sega Splash Screen\Sega Splash Screen.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scenes\Title Screen\Title Screen.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scenes.h">
@@ -89,7 +104,7 @@
     <ClInclude Include="source\assets\assets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\data\game_config.h">
+    <ClInclude Include="source\data\Game Configuration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\assets\fonts\PixelOperator\PixelOperatorHB.h">
@@ -144,6 +159,51 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\objects\sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entities\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entities\Sprite Atlas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Embedded Fonts\Images\bettersonic_icon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Embedded Fonts\Images\Images.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Embedded Fonts\Images\sega-splash-screen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Embedded Fonts\Images\sonic-team-presents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Embedded Fonts\Images\title-screen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Embedded Fonts\Images\raylib-animated-logo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Embedded Fonts\Sound Effects\Sega Chant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Embedded Fonts\Sound Effects\Sound Effects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Embedded Fonts\Assets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Embedded Fonts\Fonts\Fonts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\Logos Splash Screen\Logos Splash Screen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\Sega Splash Screen\Sega Splash Screen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scenes\Title Screen\Title Screen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
