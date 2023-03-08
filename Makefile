@@ -34,6 +34,8 @@ else ifeq ($(OPERATING_SYSTEM),Linux)
 	else ifeq ($(_PROCESSOR_ARCHITECTURE),arm)
 		PROCESSOR_ARCHITECTURE = arm32
 	endif
+else
+	PROCESSOR_ARCHITECTURE = Universal
 endif
 
 ################################################################################
@@ -59,6 +61,17 @@ BUILD_TOOLCHAIN ?=
 ################################################################################
 
 ifeq ($(OPERATING_SYSTEM),Windows)
+	ifeq ($(BUILD_TOOLCHAIN),MSVC)
+		C_COMPILER = cl
+	else
+		ifeq ($(BUILD_TOOLCHAIN),LLVM)
+			C_COMPILER = clang
+		else
+			C_COMPILER = gcc
+	endif
+else
+	
+endif
 
 
 all:
