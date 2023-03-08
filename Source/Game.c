@@ -1,10 +1,13 @@
 #include <raylib.h>
 #include <raymath.h>
+#include "Entities/Scene.h"
+#include "Scenes/Scene Manager.h"
 #include "Data/Game Configuration.h"
+#include "Embedded Assets/Assets.h"
+#include "Utilities/Utility.h"
 
-
-void draw(RenderTexture2D render_texture, Color clear_color, scene_t* scene, float delta);
-void render(RenderTexture2D render_texture, Color clear_color, unsigned int render_width, unsigned int render_height);
+void draw(RenderTexture2D render_texture, Color clear_color, Scene* scene, float delta);
+void render(RenderTexture2D render_texture, Color clear_color, const unsigned short render_width, const unsigned short render_height);
 
 int main()
 {
@@ -26,15 +29,15 @@ int main()
     unsigned int game_end = 0;
 
 
-    instaniate_scenes();
-    change_scene(sega_splash_screen);
+    instaniateScenes();
+    changeToScene(sceneSegaSplashScreen);
 
 
     while (!game_end)
     {
         game_end = (unsigned int)WindowShouldClose();
-        draw(render_texture, BLACK, current_scene, GetFrameTime());
-        render(render_texture, BLACK, VIEW_WIDTH, VIEW_HEIGHT);
+        draw(render_texture, BLACK, currentScene, GetFrameTime());
+        render(render_texture, BLACK, (int)VIEWPORT_WIDTH, (int)VIEWPORT_HEIGHT);
         
 
         if (!IsWindowFocused()) {
@@ -69,14 +72,14 @@ int main()
         }
     }
 
-    change_scene(NULL);
+    changeToScene(NULL);
     UnloadImage(window_icon);
     UnloadRenderTexture(render_texture);
     CloseWindow();
     return 0;
 }
 
-void draw(RenderTexture2D render_texture, Color clear_color, scene_t *scene, float delta)
+void draw(RenderTexture2D render_texture, Color clear_color, Scene* scene, float delta)
 {
     BeginTextureMode(render_texture);
         ClearBackground(clear_color);
@@ -89,7 +92,7 @@ void draw(RenderTexture2D render_texture, Color clear_color, scene_t *scene, flo
     EndTextureMode();
 }
 
-void render(RenderTexture2D render_texture, Color clear_color, unsigned int render_width, unsigned int render_height)
+void render(RenderTexture2D render_texture, Color clear_color, const unsigned short render_width, const unsigned short render_height)
 {
     float scale = getLetterboxRatio((Vector2) { (float)render_width, (float)render_height});
 

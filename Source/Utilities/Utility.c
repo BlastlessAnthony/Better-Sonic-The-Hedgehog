@@ -7,7 +7,7 @@ float getLetterboxRatio(Vector2 resolution)
     return MIN((float)GetScreenWidth() / resolution.x, (float)GetScreenHeight() / resolution.y);
 }
 
-bool isInDebugMode()
+unsigned char isInDebugMode()
 {
    #if !defined(NDEBUG)
         return true;

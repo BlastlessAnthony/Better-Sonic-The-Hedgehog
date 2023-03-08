@@ -44,6 +44,5 @@ void drawSpriteAtlas(SpriteAtlas* spriteAtlas) {
 }
 
 void destroySpriteAtlas(SpriteAtlas* spriteAtlas) { 
-	UnloadTexture(spriteAtlas->texture); 
 	free(spriteAtlas);
 }
