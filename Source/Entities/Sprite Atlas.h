@@ -15,6 +15,8 @@ typedef struct {
 	float scale;
 	float rotation;
 	Rectangle boundingBox;
+    float animationSpeed;
+    float animationTimer;
 } SpriteAtlas;
 
 extern SpriteAtlas* newSpriteAtlas(Texture2D textureAtlas, Vector2 textureSize, unsigned short framesPerRow, unsigned short framesPerColumn);

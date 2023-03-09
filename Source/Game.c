@@ -23,7 +23,9 @@ int main()
     SetTargetFPS((int)FRAMERATE);
 
     Image window_icon = LoadImageFromMemory(".png", bettersonic_icon_png, BETTER_SONIC_ICON_BYTE_SIZE);
-    SetWindowIcon(window_icon);
+    if (isOperatingSystem(OS_MACOSX) == 0) {
+        SetWindowIcon(window_icon);
+    }
 
     float window_opacity = 1.0f;
     unsigned int game_end = 0;
@@ -33,9 +35,9 @@ int main()
     changeToScene(sceneSegaSplashScreen);
 
 
-    while (!game_end)
+    while (game_end == 0)
     {
-        game_end = (unsigned int)WindowShouldClose();
+        game_end = (unsigned char)WindowShouldClose();
         draw(render_texture, BLACK, currentScene, GetFrameTime());
         render(render_texture, BLACK, (int)VIEWPORT_WIDTH, (int)VIEWPORT_HEIGHT);
         
@@ -73,6 +75,7 @@ int main()
     }
 
     changeToScene(NULL);
+    destroyScenes();
     UnloadImage(window_icon);
     UnloadRenderTexture(render_texture);
     CloseWindow();

@@ -8,7 +8,7 @@
 /// @returns A new sprite atlas or null if the malloc failed.
 SpriteAtlas* newSpriteAtlas(Texture2D textureAtlas, Vector2 textureSize, unsigned short framesPerRow, unsigned short framesPerColumn)
 {
-	SpriteAtlas* spriteAtlas = malloc(sizeof(SpriteAtlas*));
+	SpriteAtlas* spriteAtlas = malloc(sizeof(SpriteAtlas));
 	if (!spriteAtlas)
 		return NULL;
 
@@ -22,7 +22,6 @@ SpriteAtlas* newSpriteAtlas(Texture2D textureAtlas, Vector2 textureSize, unsigne
 	spriteAtlas->origin = (Vector2){0.f, 0.f};
 	spriteAtlas->scale = 1.f;
 	spriteAtlas->rotation = 0.f;
-
 	return spriteAtlas;
 }
 
@@ -31,9 +30,18 @@ SpriteAtlas* newSpriteAtlas(Texture2D textureAtlas, Vector2 textureSize, unsigne
 /// </summary>
 /// <param name="spriteAtlas"></param>
 void drawSpriteAtlas(SpriteAtlas* spriteAtlas) {
+    unsigned char maximumFrames = (spriteAtlas->framesPerColumn * spriteAtlas->framesPerRow);
+    if (spriteAtlas->frame < maximumFrames) {
+        spriteAtlas->animationTimer += spriteAtlas->animationSpeed;
+        if (spriteAtlas->animationTimer >= 1.f) {
+            spriteAtlas->frame++;
+            spriteAtlas->animationTimer = 0;
+        }
+    }
+    
 	float _x, _y;
 	_x = (spriteAtlas->frame % spriteAtlas->framesPerColumn) * spriteAtlas->frameSize.x;
-	_y = (int)(spriteAtlas->frame / spriteAtlas->framesPerRow) * spriteAtlas->frameSize.y;
+	_y = (int)(spriteAtlas->frame / spriteAtlas->framesPerColumn) * spriteAtlas->frameSize.y;
 	DrawTexturePro(spriteAtlas->texture,
 		(Rectangle){_x, _y, spriteAtlas->frameSize.x, spriteAtlas->frameSize.y},
 		(Rectangle){spriteAtlas->position.x, spriteAtlas->position.y, spriteAtlas->frameSize.x * spriteAtlas->scale, spriteAtlas->frameSize.y * spriteAtlas->scale},

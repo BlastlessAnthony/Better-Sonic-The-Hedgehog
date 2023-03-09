@@ -1,4 +1,4 @@
-#include "utility.h"
+#include "Utility.h"
 
 float getLetterboxRatio(Vector2 resolution)
 {
@@ -7,10 +7,15 @@ float getLetterboxRatio(Vector2 resolution)
     return MIN((float)GetScreenWidth() / resolution.x, (float)GetScreenHeight() / resolution.y);
 }
 
-unsigned char isInDebugMode()
+unsigned char isInDebugMode(void)
 {
    #if !defined(NDEBUG)
         return true;
     #endif
     return false;
+}
+
+unsigned char isOperatingSystem(const char *OS)
+{
+    return strcasecmp(OS_PLATFORM, OS) == 0 ? 1 : 0;
 }

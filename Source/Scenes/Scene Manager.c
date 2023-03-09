@@ -4,7 +4,7 @@ Scene* currentScene = NULL;
 /// <summary>
 /// Instantiates all the scenes before the game starts.
 /// </summary>
-void instaniateScenes() {
+void instaniateScenes(void) {
 	sceneSegaSplashScreen = newScene(initializeSegaSplashScreenScene, updateSegaSplashScreenScene, destroySegaSplashScreen);
 	sceneLogosSplashScreen = newScene(initializeLogosSplashScreenScene, updateLogosSplashScreenScene, destroyLogosSplashScreenScene);
 }
@@ -17,11 +17,17 @@ void changeToScene(Scene* scene) {
 	if (currentScene) {
 		(currentScene->destroy)();
 	}
-
-	currentScene = realloc(currentScene, sizeof(scene));
+    
 	currentScene = scene;
 	if (scene) {
 		(currentScene->initialize)();
 	}
 		
+}
+
+
+void destroyScenes(void)
+{
+    destroyScene(sceneSegaSplashScreen);
+    destroyScene(sceneLogosSplashScreen);
 }
