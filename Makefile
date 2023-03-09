@@ -68,11 +68,17 @@ ifeq ($(OPERATING_SYSTEM),Windows)
 			C_COMPILER = clang
 		else
 			C_COMPILER = gcc
+		endif
 	endif
-else
-	
 endif
 
+#Get source files
+SOURCE_DIRECTORY = ./Source
+ifeq ($(OPERATING_SYSTEM),Windows)
+	SOURCES = $(shell dir "$(subst /,\\,$(SOURCE_DIRECTORY))\*.c" /b /s)
+else
+	SOURCES = $(sort $(shell find $(source_directory) -name '*.c'))
+endif
 
 all:
-	@echo $(PROJECT_NAME)
+	@echo $(SOURCES)
