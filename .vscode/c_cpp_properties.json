@@ -3,8 +3,8 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}${pathSeparator}source${pathSeparator}**",
-                "${workspaceFolder}${pathSeparator}Raylib${pathSeparator}include${pathSeparator}**",
+                "${workspaceFolder}${pathSeparator}Source${pathSeparator}**",
+                "${workspaceFolder}${pathSeparator}Raylib${pathSeparator}include",
                 "${workspaceFolder}/Raylib/include"
             ],
             "compilerPath": "/usr/bin/gcc",
