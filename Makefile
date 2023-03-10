@@ -44,8 +44,8 @@ endif
 PROJECT_NAME = Better Sonic The Hedgehog ($(OS)-$(PROCESSOR_ARCHITECTURE))
 
 #Directories
-BUILD_DIRECTORY = "./Build"
-BINARY_DIRECTORY = "./Binary"
+BUILD_DIRECTORY = ./Build
+BINARY_DIRECTORY = ./Binary
 INCLUDE_DIRECTORIES = \
 	-I "./Raylib/include" \
 	-I "./Source" \
@@ -53,7 +53,7 @@ INCLUDE_DIRECTORIES = \
 
 BUILD_ARCHITECTURE := $(PROCESSOR_ARCHITECTURE)
 BUILD_TYPE := DEBUG
-BUILD_TOOLCHAIN ?=
+BUILD_TOOLCHAIN ?= NONE
 
 
 ################################################################################
@@ -61,24 +61,38 @@ BUILD_TOOLCHAIN ?=
 ################################################################################
 
 ifeq ($(OPERATING_SYSTEM),Windows)
+
+	ifeq ($(BUILD_TOOLCHAIN),NONE)
+		BUILD_TOOLCHAIN = MINGW
+	endif
+
 	ifeq ($(BUILD_TOOLCHAIN),MSVC)
 		C_COMPILER = cl
-	else
-		ifeq ($(BUILD_TOOLCHAIN),LLVM)
+	else ifeq ($(BUILD_TOOLCHAIN),LLVM)
 			C_COMPILER = clang
-		else
-			C_COMPILER = gcc
-		endif
+	else ifeq ($(BUILD_TOOLCHAIN),MINGW)
+		C_COMPILER = gcc
+	else
+$(error No build toolchain was selected.)
 	endif
+
 endif
 
 #Get source files
 SOURCE_DIRECTORY = ./Source
 ifeq ($(OPERATING_SYSTEM),Windows)
-	SOURCES = $(shell dir "$(subst /,\\,$(SOURCE_DIRECTORY))\*.c" /b /s)
+	#SOURCES = $(subst \,/, $(shell dir "$(subst /,\\,$(SOURCE_DIRECTORY))\*.c" /n /b /s))
+	SOURCES = $(subst \,/, $(shell forfiles /s /m *.c /c "cmd /c echo @relpath"))
 else
-	SOURCES = $(sort $(shell find $(source_directory) -name '*.c'))
+	SOURCES = $(sort $(shell find $(SOURCE_DIRECTORY) '*.c'))
 endif
 
+OBJECT_FILES = $(subst $(SOURCE_DIRECTORY),$(BUILD_DIRECTORY)/Standard/$(OS)/$(BUILD_TOOLCHAIN)/$(BUILD_ARCHITECTURE),$(SOURCES))
+
+OBJECT_FILES := $(subst .c,.o,$(OBJECT_FILES))
+
+
+DEPENDENCIES = $(patsubst %.o,%.d,"$(OBJECT_FILES)")
+
 all:
-	@echo $(SOURCES)
+	@echo $(DEPENDENCIES)
