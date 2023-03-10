@@ -11,6 +11,8 @@ extern void updateLogosSplashScreenScene(float delta);
 extern void destroyLogosSplashScreenScene(void);
 extern Scene* sceneLogosSplashScreen;
 
+static unsigned short t1;
+
 static SpriteAtlas *raylibLogo;
 static Image raylibLogoImage;
 static float fade_opacity;

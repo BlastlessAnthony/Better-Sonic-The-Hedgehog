@@ -31,7 +31,7 @@ SpriteAtlas* newSpriteAtlas(Texture2D textureAtlas, Vector2 textureSize, unsigne
 /// <param name="spriteAtlas"></param>
 void drawSpriteAtlas(SpriteAtlas* spriteAtlas) {
     unsigned char maximumFrames = (spriteAtlas->framesPerColumn * spriteAtlas->framesPerRow);
-    if (spriteAtlas->frame < maximumFrames) {
+    if (spriteAtlas->frame < maximumFrames -1) {
         spriteAtlas->animationTimer += spriteAtlas->animationSpeed;
         if (spriteAtlas->animationTimer >= 1.f) {
             spriteAtlas->frame++;

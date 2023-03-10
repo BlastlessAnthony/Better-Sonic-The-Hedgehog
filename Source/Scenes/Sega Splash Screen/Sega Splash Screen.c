@@ -18,7 +18,7 @@ void updateSegaSplashScreenScene(float delta)
 {
 	DrawRectangle(0, 0, (int)VIEWPORT_WIDTH, (int)VIEWPORT_HEIGHT, (Color) {255, 255, 255, 255});
     
-	segaLogo->animationSpeed += 5 * delta;
+	segaLogo->animationSpeed = 25 * delta;
 
 	if (segaLogo->frame >= 24 && i == 0) {
 		PlaySound(segaChant);
@@ -43,9 +43,6 @@ void updateSegaSplashScreenScene(float delta)
             DrawRectangle(0, 0, (float)VIEWPORT_WIDTH, (float)VIEWPORT_HEIGHT, (Color) { 0x00, 0x00, 0x00, (unsigned int)fade_opacity });
         EndBlendMode();
     }
-    
-    DrawText(TextFormat("%f", segaLogo->animationTimer), 0, 96, 15, Blue);
-	
 }
 
 void destroySegaSplashScreen(void)
