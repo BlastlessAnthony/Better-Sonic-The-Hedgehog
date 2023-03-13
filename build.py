@@ -88,7 +88,29 @@ if BUILD_ARCHITECTURE == "":
 #### Compiler Setup
 ################################################################################
 C_COMPILER: str = ""
+SOURCES: list[str] = []
+SOURCE_NAMES: list[str] = []
+OBJECT_FILES: list[str] = []
+OBJECT_FILE_NAMES: list[str] = []
+OBJECT_FILE_DIRS: list[str] = []
 
+#
+C_FLAGS: list[str] = [
+    "-std=c17",
+    "-Wall",
+    "-Wpedantic",
+    "-Wextra"
+]
+
+C_PREPROCESSOR_FLAGS: list[str] = [
+    "-MMD",
+    "-MP"
+]
+
+LD_LIBRARIES: list[str] = []
+LD_FLAGS: list[str] = []
+
+#Operating system specific settings.
 match get_operating_system().lower():
 
     case "windows":
@@ -98,10 +120,17 @@ match get_operating_system().lower():
         if C_COMPILER == "":
             if BUILD_TOOLCHAIN == BUILD_TOOLCHAIN_MSVC:
                 C_COMPILER = "cl.exe"
+                LD_FLAGS.append("-static-libstdc++")
             elif BUILD_TOOLCHAIN == BUILD_TOOLCHAIN_MINGW:
                 C_COMPILER = "gcc.exe"
+                LD_FLAGS.append("-static-libgcc")
             elif BUILD_TOOLCHAIN == BUILD_TOOLCHAIN_LLVM:
                 C_COMPILER = "clang.exe"
+                LD_FLAGS.append("-static-libstdc++")
+
+
+        if BUILD_MODE == BUILD_MODE_RELEASE:
+            LD_FLAGS.append("-mwindows")
 
     case "darwin":
         if BUILD_TOOLCHAIN == "":
@@ -112,6 +141,8 @@ match get_operating_system().lower():
                 C_COMPILER = "gcc"
             elif BUILD_TOOLCHAIN == BUILD_TOOLCHAIN_LLVM:
                 C_COMPILER = "clang"
+
+        LD_LIBRARIES += ["-framework IOKit", "-framework Cocoa", "-framework OpenGL", '"./Raylib/libraylib-darwin-universal.a"']
 
     case "linux":
         if BUILD_TOOLCHAIN == "":
@@ -126,28 +157,16 @@ match get_operating_system().lower():
     case _:
         exit("Build error. Your operating system is not supported.")
         
-SOURCES: list[str] = []
-SOURCE_NAMES: list[str] = []
+BUILD_DIRECTORY: str = f"{get_working_directory()}{path_separator()}Build{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN}{path_separator()}{BUILD_ARCHITECTURE}{path_separator()}{BUILD_MODE.capitalize()}"
+BINARY_DIRECTORY: str = f"{get_working_directory()}{path_separator()}Binary{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN}{path_separator()}{BUILD_ARCHITECTURE}{path_separator()}{BUILD_MODE.capitalize()}"
+
+#Finding all the source files.
 for root, dirnames, filenames in os.walk(SOURCE_DIRECTORY):
     for filename in fnmatch.filter(filenames, '*.c'):
         SOURCES.append(os.path.join(root, filename))
         SOURCE_NAMES.append(filename)
 
-BUILD_DIRECTORY: str = f"{get_working_directory()}{path_separator()}Build{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN}{path_separator()}{BUILD_ARCHITECTURE}{path_separator()}{BUILD_MODE.capitalize()}"
 
-BINARY_DIRECTORY: str = f"{get_working_directory()}{path_separator()}Binary{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN}{path_separator()}{BUILD_ARCHITECTURE}{path_separator()}{BUILD_MODE}"
-
-C_FLAGS: list[str] = [
-    "-std=c17",
-    "-Wall",
-    "-Wpedantic",
-    "-Wextra"
-]
-
-C_PREPROCESSOR_FLAGS: list[str] = [
-    "-MMD",
-    "-MP"
-]
 
 INCLUDE_DIRECTORIES: list[str] = [
     f"-I{get_working_directory()}{path_separator()}Raylib{path_separator()}include",
@@ -164,9 +183,7 @@ if get_operating_system().lower != "darwin":
     else:
         exit("Build Error. No vaild build architecture was set.")
 
-OBJECT_FILES: list[str] = []
-OBJECT_FILE_NAMES: list[str] = []
-OBJECT_FILE_DIRS: list[str] = []
+
 for source in SOURCES:
     OBJECT_FILES.append(source.replace(SOURCE_DIRECTORY, BUILD_DIRECTORY).replace(".c", ".o"))
 
@@ -213,27 +230,33 @@ Compiler Pre-Processor Flags: {C_PREPROCESSOR_FLAGS}
 
     case "compile":
         _cflags: str = ""
-        for i, flag in enumerate(C_FLAGS, 0): _cflags += f" {flag}"
+        for flag in C_FLAGS: _cflags += f" {flag}"
         _cppflags: str = ""
-        for i, flag in enumerate(C_PREPROCESSOR_FLAGS, 0): _cppflags += f" {flag}"
+        for flag in C_PREPROCESSOR_FLAGS: _cppflags += f" {flag}"
         _includes: str = ""
-        for i, dir in enumerate(INCLUDE_DIRECTORIES, 0): _includes += f' "{dir}"'
+        for dir in INCLUDE_DIRECTORIES: _includes += f' "{dir}"'
 
-        for i, (objd) in enumerate(OBJECT_FILE_DIRS, 0):
-            print(objd)
-            if not os.path.exists(objd):
-                os.makedirs(objd)
+        for objd in OBJECT_FILE_DIRS:
+            if not os.path.exists(str(objd)):
+                os.makedirs(str(objd))
             else:
-                os.removedirs(objd)
-                os.makedirs(objd)
+                for root, dirnames, filenames in os.walk(SOURCE_DIRECTORY):
+                    for filename in fnmatch.filter(filenames, '*.o'):
+                        if (os.path.isfile(filename)):
+                            os.remove(filename)
 
         for i, (src, obj, objd) in enumerate(zip(SOURCES, OBJECT_FILES, OBJECT_FILE_DIRS)):
             os.system(f'{C_COMPILER} {_cppflags} {_cflags} {_includes} -c "{src}" -o "{obj}"')
-        '''
-        for i, (src, obj, srcn) in enumerate(zip(SOURCES, OBJECT_FILES, SOURCES_NAMES), 0):
-            if not os.path.exists():
-                os.makedirs(obj)
-            os.system(f'{C_COMPILER} {_cppflags} {_cflags} {_includes} -c "{src}"')
-        '''
+
+
+    case "link":
+        _ldflags: str = ""
+        for flag in LD_FLAGS: _ldflags += f" {flag}"
+        _ldlibs: str = ""
+        for lib in LD_LIBRARIES: _ldlibs += f" {lib}"
+
+        if not os.path.exists(BINARY_DIRECTORY):
+            os.makedirs(BINARY_DIRECTORY)
+    
     case _:
         exit("Please select a valid action.")
