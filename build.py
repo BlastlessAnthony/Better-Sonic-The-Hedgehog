@@ -32,6 +32,7 @@ def get_cli_arg(index: int) -> str | None:
 import os
 import fnmatch
 
+
 ################################################################################
 #### Constants
 ################################################################################  
@@ -56,6 +57,7 @@ PROJECT_NAME:str = f"Better Sonic The Hedgehog ({get_operating_system()}-{get_pr
 
 SOURCE_DIRECTORY: str = f"{get_working_directory()}{path_separator()}Source"
 ACTION: str = ""
+BUILD_MODE: str = BUILD_MODE_RELEASE
 ################################################################################
 #### Command Line Arguments
 ################################################################################
@@ -101,7 +103,7 @@ match get_operating_system().lower():
             elif BUILD_TOOLCHAIN == BUILD_TOOLCHAIN_LLVM:
                 C_COMPILER = "clang.exe"
 
-    case "mac os x":
+    case "darwin":
         if BUILD_TOOLCHAIN == "":
             BUILD_TOOLCHAIN = BUILD_TOOLCHAIN_LLVM
         
@@ -125,11 +127,13 @@ match get_operating_system().lower():
         exit("Build error. Your operating system is not supported.")
         
 SOURCES: list[str] = []
+SOURCE_NAMES: list[str] = []
 for root, dirnames, filenames in os.walk(SOURCE_DIRECTORY):
     for filename in fnmatch.filter(filenames, '*.c'):
         SOURCES.append(os.path.join(root, filename))
+        SOURCE_NAMES.append(filename)
 
-BUILD_DIRECTORY: str = f"{get_working_directory()}{path_separator()}Build{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN}{path_separator()}{BUILD_ARCHITECTURE}{path_separator()}{BUILD_MODE}"
+BUILD_DIRECTORY: str = f"{get_working_directory()}{path_separator()}Build{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN}{path_separator()}{BUILD_ARCHITECTURE}{path_separator()}{BUILD_MODE.capitalize()}"
 
 BINARY_DIRECTORY: str = f"{get_working_directory()}{path_separator()}Binary{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN}{path_separator()}{BUILD_ARCHITECTURE}{path_separator()}{BUILD_MODE}"
 
@@ -146,11 +150,11 @@ C_PREPROCESSOR_FLAGS: list[str] = [
 ]
 
 INCLUDE_DIRECTORIES: list[str] = [
-    f"{get_working_directory()}{path_separator()}Raylib{path_separator()}include",
-    f"{get_working_directory()}{path_separator()}Source"
+    f"-I{get_working_directory()}{path_separator()}Raylib{path_separator()}include",
+    f"-I{get_working_directory()}{path_separator()}Source"
 ]
 
-if get_operating_system().lower != "mac os x":
+if get_operating_system().lower != "darwin":
     if get_operating_system().lower == "windows": EXECUTABLE += ".exe"
     
     if BUILD_ARCHITECTURE.lower() in PROC_ARCHTITECTURE_32:
@@ -161,12 +165,17 @@ if get_operating_system().lower != "mac os x":
         exit("Build Error. No vaild build architecture was set.")
 
 OBJECT_FILES: list[str] = []
+OBJECT_FILE_NAMES: list[str] = []
+OBJECT_FILE_DIRS: list[str] = []
 for source in SOURCES:
     OBJECT_FILES.append(source.replace(SOURCE_DIRECTORY, BUILD_DIRECTORY).replace(".c", ".o"))
 
-OBJECT_FILE_DEPENDENCIES: list[str] = []
-for object_file in OBJECT_FILES:
-    OBJECT_FILE_DEPENDENCIES.append(object_file.replace(".o", ".d"))
+for srcn in SOURCE_NAMES:
+    OBJECT_FILE_NAMES.append(srcn.replace(".c", ".o"))
+
+for n, (obj, objn) in enumerate(zip(OBJECT_FILES, OBJECT_FILE_NAMES)):
+    OBJECT_FILE_DIRS.append(obj.replace(objn, ""))
+
 ################################################################################
 #### Actions
 ################################################################################
@@ -188,7 +197,7 @@ Build Architecture: {BUILD_ARCHITECTURE}
 
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
+C Compiler: {C_COMPILER}
 
 Source Files: {SOURCES}
 
@@ -203,7 +212,28 @@ Compiler Pre-Processor Flags: {C_PREPROCESSOR_FLAGS}
         """)
 
     case "compile":
-        ...
+        _cflags: str = ""
+        for i, flag in enumerate(C_FLAGS, 0): _cflags += f" {flag}"
+        _cppflags: str = ""
+        for i, flag in enumerate(C_PREPROCESSOR_FLAGS, 0): _cppflags += f" {flag}"
+        _includes: str = ""
+        for i, dir in enumerate(INCLUDE_DIRECTORIES, 0): _includes += f' "{dir}"'
 
+        for i, (objd) in enumerate(OBJECT_FILE_DIRS, 0):
+            print(objd)
+            if not os.path.exists(objd):
+                os.makedirs(objd)
+            else:
+                os.removedirs(objd)
+                os.makedirs(objd)
+
+        for i, (src, obj, objd) in enumerate(zip(SOURCES, OBJECT_FILES, OBJECT_FILE_DIRS)):
+            os.system(f'{C_COMPILER} {_cppflags} {_cflags} {_includes} -c "{src}" -o "{obj}"')
+        '''
+        for i, (src, obj, srcn) in enumerate(zip(SOURCES, OBJECT_FILES, SOURCES_NAMES), 0):
+            if not os.path.exists():
+                os.makedirs(obj)
+            os.system(f'{C_COMPILER} {_cppflags} {_cflags} {_includes} -c "{src}"')
+        '''
     case _:
-        exit("No.")
+        exit("Please select a valid action.")
