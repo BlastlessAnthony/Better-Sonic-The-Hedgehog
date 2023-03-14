@@ -1,3 +1,5 @@
+#!/usr/bin/env python3.10
+
 ################################################################################
 #### Functions
 ################################################################################
@@ -28,6 +30,35 @@ def get_cli_arg(index: int) -> str | None:
         return None
     else:
         return argv[int(index)]
+    
+
+def copy_file(file: str, desination: str):
+    import shutil, os
+    if not os.path.isfile(str(file)):
+        raise FileNotFoundError
+    
+    if not os.path.exists(str(desination)):
+        raise Exception("That path or directory doesn't exist.")
+    
+    shutil.copy(file, desination)
+
+def remove_directory_tree(directory: str):
+    import shutil, os
+    if not os.path.exists(str(directory)): raise Exception("That path or directory doesn't exist.")
+    shutil.rmtree(str(directory))
+    del shutil
+
+def create_directory(directory: str):
+    import os
+    os.makedirs(directory)
+    del os
+
+def create_directory_safe(directory: str):
+    import os
+    if os.path.exists(str(directory)):
+        raise Exception("That path or directory already exists.")
+    create_directory(directory)
+    del os
     
 import os
 import fnmatch
@@ -96,7 +127,7 @@ OBJECT_FILE_DIRS: list[str] = []
 
 #
 C_FLAGS: list[str] = [
-    "-std=c17",
+    "-std=c99",
     "-Wall",
     "-Wpedantic",
     "-Wextra"
@@ -146,7 +177,9 @@ match get_operating_system().lower():
             elif BUILD_TOOLCHAIN == BUILD_TOOLCHAIN_LLVM:
                 C_COMPILER = "clang"
 
-        LD_LIBRARIES += ["-framework IOKit", "-framework Cocoa", "-framework OpenGL", f'"{get_working_directory()}/Raylib/libraylib-darwin-universal.a"']
+        LD_LIBRARIES += ["-framework IOKit", "-framework Cocoa", "-framework OpenGL"]
+        if BUILD_ARCHITECTURE.lower() == "x86_64": 
+            LD_LIBRARIES += [f'"{get_working_directory()}{path_separator()}Raylib/libraylib-macos-x86_64.a"'] if BUILD_MODE == BUILD_MODE_RELEASE else [f'"{get_working_directory()}{path_separator()}Raylib/libraylib-macos-x86_64-d.a"']
 
     case "linux":
         if BUILD_TOOLCHAIN == "":
@@ -162,7 +195,7 @@ match get_operating_system().lower():
         exit("Build error. Your operating system is not supported.")
         
 BUILD_DIRECTORY: str = f"{get_working_directory()}{path_separator()}Build{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN.capitalize()}{path_separator()}{BUILD_ARCHITECTURE.capitalize()}{path_separator()}{BUILD_MODE.capitalize()}"
-BINARY_DIRECTORY: str = f"{get_working_directory()}{path_separator()}Binary{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN}{path_separator()}{BUILD_ARCHITECTURE.capitalize()}{path_separator()}{BUILD_MODE.capitalize()}"
+BINARY_DIRECTORY: str = f"{get_working_directory()}{path_separator()}Binary{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN.capitalize()}{path_separator()}{BUILD_ARCHITECTURE.capitalize()}{path_separator()}{BUILD_MODE.capitalize()}"
 
 #Finding all the source files.
 for root, dirnames, filenames in os.walk(SOURCE_DIRECTORY):
@@ -265,9 +298,63 @@ Compiler Pre-Processor Flags: {C_PREPROCESSOR_FLAGS}
 
         if not os.path.exists(BINARY_DIRECTORY):
             os.makedirs(BINARY_DIRECTORY)
+        else:
+            remove_directory_tree(BINARY_DIRECTORY)
+            os.makedirs(BINARY_DIRECTORY)
 
-        print(_objs)
-        os.system(f'{C_COMPILER} {_ldlibs} {_ldflags} {_objs} -o "{BINARY_DIRECTORY}{path_separator()}bru.exe"')
+        os.system(f'{C_COMPILER} {_ldlibs} {_ldflags} {_objs} -arch {BUILD_ARCHITECTURE} -o "{BINARY_DIRECTORY}{path_separator()}{EXECUTABLE}"')
+    
+    case "bundle":
+        if get_operating_system().lower() == "windows":
+            exit("Can't bundle application on Windows. " + 'Use "package" to package the executable into a zip.')
+
+        if BUILD_MODE == BUILD_MODE_RELEASE: exit("There is no point to bundling a debug binary.")
+
+        if get_operating_system().lower() == "darwin":
+            if os.path.exists(f"{BINARY_DIRECTORY}{path_separator()}{PROJECT_NAME}.app"): remove_directory_tree(f"{BINARY_DIRECTORY}{path_separator()}{PROJECT_NAME}.app")
+            os.makedirs(f"{BINARY_DIRECTORY}{path_separator()}{PROJECT_NAME}.app")
+            os.mkdir(f"{BINARY_DIRECTORY}{path_separator()}{PROJECT_NAME}.app{path_separator()}Contents")
+            os.mkdir(f"{BINARY_DIRECTORY}{path_separator()}{PROJECT_NAME}.app{path_separator()}Contents{path_separator()}MacOS")
+            copy_file(f"{BINARY_DIRECTORY}{path_separator()}{EXECUTABLE}", f"{BINARY_DIRECTORY}{path_separator()}{PROJECT_NAME}.app{path_separator()}Contents{path_separator()}MacOS")
+            with open(f"{BINARY_DIRECTORY}{path_separator()}{PROJECT_NAME}.app{path_separator()}Contents{path_separator()}Info.plist", "w") as plist:
+                plist.write(
+f"""
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSHumanReadableCopyright</key>
+	<string>Open Source (FOSS), No Copyright</string>
+	<key>CFBundleName</key>
+	<string>Better Sonic The Hedgehog (Darwin)</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.games</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>{EXECUTABLE}</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.github.bettersth</string>
+	<key>CFBundleShortVersionString</key>
+	<string>100</string>
+	<key>CFBundleVersion</key>
+	<string>1.0.0</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+</dict>
+</plist>    
+""")
+
+    case "clean":
+        remove_directory_tree(BUILD_DIRECTORY)
+        remove_directory_tree(BINARY_DIRECTORY)
     
     case _:
-        exit("Please select a valid action.")
+        exit('Please select a valid action. Type "help" for more information.')
+
+'''
+with open("Output.txt", "w") as text_file:
+    text_file.write("Purchase Amount: %s" % TotalAmount)
+'''

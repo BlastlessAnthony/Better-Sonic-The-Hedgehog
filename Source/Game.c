@@ -90,7 +90,7 @@ void draw(RenderTexture2D render_texture, Color clear_color, Scene* scene, float
             (scene->update)(delta);
 
         if (isInDebugMode()) {
-            DrawFPS(0, 0);
+            DrawTextEx(GetFontDefault(), TextFormat("FPS: %i/%.2f", GetFPS(), GetFrameTime()*1000), (Vector2){0, VIEWPORT_HEIGHT - MeasureTextEx(GetFontDefault(), TextFormat("FPS: %i/%.2f", GetFPS(), GetFrameTime()*1000), 12, 2).y}, 12, 2, GREEN);
         }
     EndTextureMode();
 }
