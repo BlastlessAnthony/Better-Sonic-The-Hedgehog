@@ -132,6 +132,10 @@ match get_operating_system().lower():
         if BUILD_MODE == BUILD_MODE_RELEASE:
             LD_FLAGS.append("-mwindows")
 
+        LD_LIBRARIES += ["-lopengl32", "-lgdi32", "-lwinmm"]
+        if BUILD_ARCHITECTURE in PROC_ARCHTITECTURE_64:
+            LD_LIBRARIES.append(f'"{get_working_directory()}/Raylib/libraylib-mingw64-x86_64.a"')
+
     case "darwin":
         if BUILD_TOOLCHAIN == "":
             BUILD_TOOLCHAIN = BUILD_TOOLCHAIN_LLVM
@@ -142,7 +146,7 @@ match get_operating_system().lower():
             elif BUILD_TOOLCHAIN == BUILD_TOOLCHAIN_LLVM:
                 C_COMPILER = "clang"
 
-        LD_LIBRARIES += ["-framework IOKit", "-framework Cocoa", "-framework OpenGL", '"./Raylib/libraylib-darwin-universal.a"']
+        LD_LIBRARIES += ["-framework IOKit", "-framework Cocoa", "-framework OpenGL", f'"{get_working_directory()}/Raylib/libraylib-darwin-universal.a"']
 
     case "linux":
         if BUILD_TOOLCHAIN == "":
@@ -157,8 +161,8 @@ match get_operating_system().lower():
     case _:
         exit("Build error. Your operating system is not supported.")
         
-BUILD_DIRECTORY: str = f"{get_working_directory()}{path_separator()}Build{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN}{path_separator()}{BUILD_ARCHITECTURE}{path_separator()}{BUILD_MODE.capitalize()}"
-BINARY_DIRECTORY: str = f"{get_working_directory()}{path_separator()}Binary{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN}{path_separator()}{BUILD_ARCHITECTURE}{path_separator()}{BUILD_MODE.capitalize()}"
+BUILD_DIRECTORY: str = f"{get_working_directory()}{path_separator()}Build{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN.capitalize()}{path_separator()}{BUILD_ARCHITECTURE.capitalize()}{path_separator()}{BUILD_MODE.capitalize()}"
+BINARY_DIRECTORY: str = f"{get_working_directory()}{path_separator()}Binary{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN}{path_separator()}{BUILD_ARCHITECTURE.capitalize()}{path_separator()}{BUILD_MODE.capitalize()}"
 
 #Finding all the source files.
 for root, dirnames, filenames in os.walk(SOURCE_DIRECTORY):
@@ -245,7 +249,7 @@ Compiler Pre-Processor Flags: {C_PREPROCESSOR_FLAGS}
                         if (os.path.isfile(filename)):
                             os.remove(filename)
 
-        for i, (src, obj, objd) in enumerate(zip(SOURCES, OBJECT_FILES, OBJECT_FILE_DIRS)):
+        for n, (src, obj, objd) in enumerate(zip(SOURCES, OBJECT_FILES, OBJECT_FILE_DIRS)):
             os.system(f'{C_COMPILER} {_cppflags} {_cflags} {_includes} -c "{src}" -o "{obj}"')
 
 
@@ -255,8 +259,15 @@ Compiler Pre-Processor Flags: {C_PREPROCESSOR_FLAGS}
         _ldlibs: str = ""
         for lib in LD_LIBRARIES: _ldlibs += f" {lib}"
 
+        _objs: str  = ""
+        for obj in OBJECT_FILES:
+            _objs += f' "{obj}"' 
+
         if not os.path.exists(BINARY_DIRECTORY):
             os.makedirs(BINARY_DIRECTORY)
+
+        print(_objs)
+        os.system(f'{C_COMPILER} {_ldlibs} {_ldflags} {_objs} -o "{BINARY_DIRECTORY}{path_separator()}bru.exe"')
     
     case _:
         exit("Please select a valid action.")
