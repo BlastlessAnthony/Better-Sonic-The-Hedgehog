@@ -348,13 +348,16 @@ f"""
 """)
 
     case "clean":
-        remove_directory_tree(BUILD_DIRECTORY)
-        remove_directory_tree(BINARY_DIRECTORY)
+        if os.path.exists(BUILD_DIRECTORY.replace(f"{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN.capitalize()}{path_separator()}{BUILD_ARCHITECTURE.capitalize()}{path_separator()}{BUILD_MODE.capitalize()}", "")):
+            remove_directory_tree(BUILD_DIRECTORY.replace(f"{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN.capitalize()}{path_separator()}{BUILD_ARCHITECTURE.capitalize()}{path_separator()}{BUILD_MODE.capitalize()}", ""))
+
+        if os.path.exists(BINARY_DIRECTORY.replace(f"{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN.capitalize()}{path_separator()}{BUILD_ARCHITECTURE.capitalize()}{path_separator()}{BUILD_MODE.capitalize()}", "")):
+            remove_directory_tree(BINARY_DIRECTORY.replace(f"{path_separator()}{get_operating_system()}{path_separator()}{BUILD_TOOLCHAIN.capitalize()}{path_separator()}{BUILD_ARCHITECTURE.capitalize()}{path_separator()}{BUILD_MODE.capitalize()}", ""))
     
+    case "run":
+        if os.path.exists(f'"{BINARY_DIRECTORY}{path_separator()}{EXECUTABLE}"'):
+            os.system(f'"{BINARY_DIRECTORY}{path_separator()}{EXECUTABLE}"')
+        else: exit("The executable doesn't exist.")
+
     case _:
         exit('Please select a valid action. Type "help" for more information.')
-
-'''
-with open("Output.txt", "w") as text_file:
-    text_file.write("Purchase Amount: %s" % TotalAmount)
-'''

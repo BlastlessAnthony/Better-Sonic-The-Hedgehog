@@ -3,6 +3,6 @@
 
 static unsigned short VIEWPORT_WIDTH = 320;
 static unsigned short VIEWPORT_HEIGHT = 224;
-static unsigned char FRAMERATE = 30;
+static unsigned short FRAMERATE = 9999;
 
 #endif //__BSTH_DATA_H__

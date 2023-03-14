@@ -17,7 +17,7 @@ int main()
     SetExitKey(189);
 
     RenderTexture2D render_texture = LoadRenderTexture(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-    SetTextureFilter(render_texture.texture, TEXTURE_FILTER_TRILINEAR);
+    SetTextureFilter(render_texture.texture, TEXTURE_FILTER_POINT);
     
     InitAudioDevice();
     SetTargetFPS((int)FRAMERATE);
@@ -65,7 +65,7 @@ int main()
         
             
         if (IsKeyDown(KEY_ESCAPE)) {
-            window_opacity -= 0.08f;
+            window_opacity -= 0.08f * GetFrameTime();
             SetWindowOpacity(window_opacity);
         }
 

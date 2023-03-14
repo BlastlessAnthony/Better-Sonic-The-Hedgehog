@@ -4,66 +4,11 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build",
+            "label": "Compile",
             "type": "shell",
-            "command": "make build build_type=${input:build_type}",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": true
-            }
-        },
-        {
-            "label": "Clean",
-            "type": "shell",
-            "command": "make clean build_type=${input:build_type}",
-            "presentation": {
-                "echo": false,
-                "reveal": "never",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": true
-            }
-        },
-        {
-            "label": "Run",
-            "type": "shell",
-            "command": "make run build_type=${input:build_type}",
-            "presentation": {
-                "echo": false,
-                "reveal": "always",
-                "focus": true,
-                "panel": "new",
-                "showReuseMessage": false,
-                "clear": false
-            }
-        },
-        {
-            "label": "Quick Build",
-            "type": "shell",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "Clean",
-                "Build"
-            ]
-        },
-        {
-            "label": "Quick Run",
-            "type": "shell",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "Clean",
-                "Build",
-                "Run"
-            ],
-            "problemMatcher": [],
-            "group": {
-                "kind": "build",
-                "isDefault": true
+            "command": "",
+            "osx":{
+                "command": "python3.10 '${workspaceFolder}${pathSeparator}build.py' compile ${input:build_type}"
             }
         }
     ],
@@ -74,6 +19,18 @@
             "default": "release",
             "options": ["release", "debug"],
             "type": "pickString"
+        },
+
+        {
+            "id": "build_arch",
+            "description": "Link the binary for which processor architecture?",
+            "default": "x86_64",
+            "options": [
+                "x86_64",
+                "i386",
+                "x86",
+                ""
+            ]
         }
     ]
 }
