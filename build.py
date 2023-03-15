@@ -160,12 +160,15 @@ match get_operating_system().lower():
                 LD_FLAGS.append("-static-libstdc++")
 
 
+        
         if BUILD_MODE == BUILD_MODE_RELEASE:
             LD_FLAGS.append("-mwindows")
+        
+        if BUILD_ARCHITECTURE.lower() in ["amd64", "ia64"]:
+            print(BUILD_MODE)
+            LD_LIBRARIES += ["S"] if BUILD_MODE.capitalize() == BUILD_MODE_RELEASE else ["l"]
 
         LD_LIBRARIES += ["-lopengl32", "-lgdi32", "-lwinmm"]
-        if BUILD_ARCHITECTURE in PROC_ARCHTITECTURE_64:
-            LD_LIBRARIES.append(f'"{get_working_directory()}/Raylib/libraylib-mingw64-x86_64.a"')
 
     case "darwin":
         if BUILD_TOOLCHAIN == "":
@@ -263,6 +266,11 @@ Compiler Flags: {C_FLAGS}
 
 
 Compiler Pre-Processor Flags: {C_PREPROCESSOR_FLAGS}
+
+Linker Flags: {LD_FLAGS}
+
+
+Linker Libraries: {LD_LIBRARIES}
         """)
 
     case "compile":
@@ -302,7 +310,8 @@ Compiler Pre-Processor Flags: {C_PREPROCESSOR_FLAGS}
             remove_directory_tree(BINARY_DIRECTORY)
             os.makedirs(BINARY_DIRECTORY)
 
-        os.system(f'{C_COMPILER} {_ldlibs} {_ldflags} {_objs} -arch {BUILD_ARCHITECTURE} -o "{BINARY_DIRECTORY}{path_separator()}{EXECUTABLE}"')
+        print(f"{_ldlibs}")
+        #os.system(f'{C_COMPILER} {_ldlibs} {_ldflags} {_objs} -o "{BINARY_DIRECTORY}{path_separator()}{EXECUTABLE}"')
     
     case "bundle":
         if get_operating_system().lower() == "windows":
